@@ -1,7 +1,6 @@
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.tensorflow.proto.example.Example;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +10,75 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class UtilityModelTest {
 
-    private class UtilityValueModel {
+    @Test
+    // This is obviously a probabilistic test, not sure how to auto run more than once though
+    void trainAccuracyGrt80() {
+
+        // Setup a model with known preferences to sample from
+        KnownUtilityValueModel hiddenModel = new KnownUtilityValueModel(2, 10);
+
+        // The tensorflow model that will be trained
+        UtilityModel model = new UtilityModel(hiddenModel.issuesOptions);
+
+        // Train the model
+        model.train(hiddenModel.generateExamples(100));
+
+        List<UtilityModel.TrainingExample> testSet = hiddenModel.generateExamples(1000);
+
+        float correct = 0;
+        float wrong = 0;
+
+        // Compute accuracy of the trained model
+        for(UtilityModel.TrainingExample example: testSet) {
+            float prediction = model.predict(example.options);
+
+            if (Math.abs(prediction - (example.accepted ? 1.0f : 0.0f)) < 0.5) {
+                correct += 1;
+            } else {
+                wrong += 1;
+            }
+        }
+
+        model.printWeights();
+
+        System.out.println("Accuracy: " + correct / (correct + wrong));
+
+        assertTrue(correct / (correct + wrong) >= 0.8);
+    }
+
+    @Test
+    // This is obviously a probabilistic test, not sure how to auto run more than once though
+    void utilityPredictionClose() {
+
+        // The known model to generate training examples with
+        KnownUtilityValueModel hiddenModel = new KnownUtilityValueModel(5, 10);
+
+        // The tensorflow model that should be trained
+        UtilityModel model = new UtilityModel(hiddenModel.issuesOptions);
+
+        model.train(hiddenModel.generateExamples(100));
+
+        model.printWeights();
+
+        List<UtilityModel.TrainingExample> testSet = hiddenModel.generateExamples(1000);
+
+        List<Float> differences = new ArrayList<>();
+
+        for(UtilityModel.TrainingExample example: testSet) {
+            float prediction = model.predict(example.options);
+
+            differences.add(Math.abs(prediction - example.actualValue));
+        }
+
+        float avg = differences.stream().reduce(0.0f, Float::sum) / differences.size();
+
+        System.out.println("Average difference: " + avg);
+
+        assertTrue(avg <= 0.2);
+    }
+
+    // A class to generate training samples with known preference paramaters
+    private class KnownUtilityValueModel {
 
         List<float[]> issues;
         float[] weights;
@@ -20,7 +87,7 @@ class UtilityModelTest {
 
         int[] issuesOptions;
 
-        public UtilityValueModel(int minIssues, int maxIssues) {
+        public KnownUtilityValueModel(int minIssues, int maxIssues) {
             Random r = new Random();
 
             do {
@@ -32,7 +99,7 @@ class UtilityModelTest {
             issues = new ArrayList<>();
 
             for (int i = 0; i < numberOfIssues; i++) {
-                float[] issueValues = new float[r.nextInt(8) + 2];
+                float[] issueValues = new float[r.nextInt(3) + 2];
 
                 for (int j = 0; j < issueValues.length; j++) {
                     issueValues[j] = r.nextFloat();
@@ -95,73 +162,5 @@ class UtilityModelTest {
         }
     }
 
-    @BeforeEach
-    void setUp() {
-    }
-
-    @AfterEach
-    void tearDown() {
-    }
-
-    @Test
-    // This is obviously a probabilistic test, not sure how to auto run more than once though
-    void trainAccuracyGrt80() {
-
-        UtilityValueModel hiddenModel = new UtilityValueModel(2, 10);
-
-        UtilityModel model = new UtilityModel(hiddenModel.issuesOptions);
-
-        model.train(hiddenModel.generateExamples(100));
-
-        List<UtilityModel.TrainingExample> testSet = hiddenModel.generateExamples(1000);
-
-        float correct = 0;
-        float wrong = 0;
-
-        for(UtilityModel.TrainingExample example: testSet) {
-            float prediction = model.predict(example.options);
-
-            if (Math.abs(prediction - (example.accepted ? 1.0f : 0.0f)) < 0.5) {
-                correct += 1;
-            } else {
-                wrong += 1;
-            }
-        }
-
-        model.printWeights();
-
-        System.out.println("Accuracy: " + correct / (correct + wrong));
-
-        assertTrue(correct / (correct + wrong) >= 0.8);
-    }
-
-    @Test
-    // This is obviously a probabilistic test, not sure how to auto run more than once though
-    void utilityPredictionClose() {
-
-        UtilityValueModel hiddenModel = new UtilityValueModel(2, 5);
-
-        UtilityModel model = new UtilityModel(hiddenModel.issuesOptions);
-
-        model.train(hiddenModel.generateExamples(100));
-
-        model.printWeights();
-
-        List<UtilityModel.TrainingExample> testSet = hiddenModel.generateExamples(1000);
-
-        List<Float> differences = new ArrayList<>();
-
-        for(UtilityModel.TrainingExample example: testSet) {
-            float prediction = model.predict(example.options);
-
-            differences.add(Math.abs(prediction - example.actualValue));
-        }
-
-        float avg = differences.stream().reduce(0.0f, Float::sum) / differences.size();
-
-        System.out.println("Average difference: " + avg);
-
-        assertTrue(avg <= 0.2);
-    }
 
 }
