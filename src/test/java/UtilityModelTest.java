@@ -1,5 +1,6 @@
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -10,12 +11,29 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class UtilityModelTest {
 
-    @Test
+    @RepeatedTest(10)
     // This is obviously a probabilistic test, not sure how to auto run more than once though
     void trainAccuracyGrt80() {
 
         // Setup a model with known preferences to sample from
-        KnownUtilityValueModel hiddenModel = new KnownUtilityValueModel(2, 10);
+        boolean randomModelIsTooBiased;
+
+        KnownUtilityValueModel hiddenModel;
+        List<UtilityModel.TrainingExample> examples;
+        long accepted;
+        do {
+
+            // The known model to generate training examples with
+            hiddenModel = new KnownUtilityValueModel(2, 10);
+
+            examples = hiddenModel.generateExamples(100);
+
+            accepted = examples.stream().filter(x -> x.accepted).count();
+
+            randomModelIsTooBiased = accepted < 0.3 * examples.size() || accepted > 0.7 * examples.size();
+        } while (randomModelIsTooBiased);
+
+        System.out.println("" + accepted + " of " + examples.size() + " training examples were positive");
 
         // The tensorflow model that will be trained
         UtilityModel model = new UtilityModel(hiddenModel.issuesOptions);
@@ -46,17 +64,33 @@ class UtilityModelTest {
         assertTrue(correct / (correct + wrong) >= 0.8);
     }
 
-    @Test
+    @RepeatedTest(100)
     // This is obviously a probabilistic test, not sure how to auto run more than once though
     void utilityPredictionClose() {
 
-        // The known model to generate training examples with
-        KnownUtilityValueModel hiddenModel = new KnownUtilityValueModel(5, 10);
+        boolean randomModelIsTooBiased;
+
+        KnownUtilityValueModel hiddenModel;
+        List<UtilityModel.TrainingExample> examples;
+        long accepted;
+        do {
+
+            // The known model to generate training examples with
+            hiddenModel = new KnownUtilityValueModel(2, 10);
+
+            examples = hiddenModel.generateExamples(100);
+
+            accepted = examples.stream().filter(x -> x.accepted).count();
+
+            randomModelIsTooBiased = accepted < 0.3 * examples.size() || accepted > 0.7 * examples.size();
+        } while (randomModelIsTooBiased);
+
+        System.out.println("" + accepted + " of " + examples.size() + " training examples were positive");
 
         // The tensorflow model that should be trained
         UtilityModel model = new UtilityModel(hiddenModel.issuesOptions);
 
-        model.train(hiddenModel.generateExamples(100));
+        model.train(examples);
 
         model.printWeights();
 
@@ -64,15 +98,23 @@ class UtilityModelTest {
 
         List<Float> differences = new ArrayList<>();
 
+        int close = 0;
+
         for(UtilityModel.TrainingExample example: testSet) {
             float prediction = model.predict(example.options);
 
             differences.add(Math.abs(prediction - example.actualValue));
+
+            if(Math.abs(prediction - example.actualValue) < 0.2) {
+                close += 1;
+            }
         }
 
         float avg = differences.stream().reduce(0.0f, Float::sum) / differences.size();
 
         System.out.println("Average difference: " + avg);
+
+        System.out.println("Percentage close values: " + (float) close /  differences.size() * 100.0f);
 
         assertTrue(avg <= 0.2);
     }
