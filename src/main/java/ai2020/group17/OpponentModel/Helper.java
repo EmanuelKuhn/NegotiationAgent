@@ -1,4 +1,4 @@
-package OpponentModel;
+package ai2020.group17.OpponentModel;
 
 import org.tensorflow.Operand;
 import org.tensorflow.op.Ops;

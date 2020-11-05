@@ -1,7 +1,8 @@
-package OpponentModel;
+package ai2020.group17.OpponentModel;
 
-import OpponentModel.UtilityModel;
 import org.junit.jupiter.api.RepeatedTest;
+
+import ai2020.group17.OpponentModel.UtilityModel;
 
 import java.util.ArrayList;
 import java.util.List;

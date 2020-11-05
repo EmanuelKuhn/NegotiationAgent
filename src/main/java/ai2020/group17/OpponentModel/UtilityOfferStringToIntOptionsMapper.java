@@ -1,4 +1,4 @@
-package OpponentModel;
+package ai2020.group17.OpponentModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
