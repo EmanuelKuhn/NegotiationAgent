@@ -1,3 +1,5 @@
+package OpponentModel;
+
 import org.tensorflow.Operand;
 import org.tensorflow.op.Ops;
 import org.tensorflow.types.family.TType;

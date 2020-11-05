@@ -1,3 +1,5 @@
+package OpponentModel;
+
 import org.tensorflow.Operand;
 import org.tensorflow.Session;
 import org.tensorflow.ndarray.Shape;
@@ -8,9 +10,6 @@ import org.tensorflow.op.core.Variable;
 import org.tensorflow.op.math.Mul;
 import org.tensorflow.types.TFloat32;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.function.Supplier;
 
 import static org.tensorflow.op.core.Placeholder.shape;

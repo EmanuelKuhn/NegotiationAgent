@@ -1,3 +1,5 @@
+package OpponentModel;
+
 import org.tensorflow.Graph;
 import org.tensorflow.Operand;
 import org.tensorflow.Session;
@@ -13,7 +15,6 @@ import org.tensorflow.types.TFloat32;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 import static org.tensorflow.op.core.Placeholder.shape;
 

@@ -1,4 +1,5 @@
-import org.jetbrains.annotations.NotNull;
+package OpponentModel;
+
 import org.tensorflow.Operand;
 import org.tensorflow.Session;
 import org.tensorflow.ndarray.Shape;

@@ -1,9 +1,11 @@
+package OpponentModel;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-// Class to map offers in the form of Map<String, String> to int[] offers accepted by the UtilityModel class.
+// Class to map offers in the form of Map<String, String> to int[] offers accepted by the OpponentModel.UtilityModel class.
 // First instantiate it with a Map of issue names to lists of possible options for the issue.
 public class UtilityOfferStringToIntOptionsMapper {
 

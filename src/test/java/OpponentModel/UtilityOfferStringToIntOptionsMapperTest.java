@@ -1,3 +1,7 @@
+package OpponentModel;
+
+import OpponentModel.UtilityModel;
+import OpponentModel.UtilityOfferStringToIntOptionsMapper;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
