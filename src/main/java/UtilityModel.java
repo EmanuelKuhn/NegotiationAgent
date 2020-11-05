@@ -11,7 +11,9 @@ import org.tensorflow.op.core.Placeholder;
 import org.tensorflow.op.train.ApplyGradientDescent;
 import org.tensorflow.types.TFloat32;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import static org.tensorflow.op.core.Placeholder.shape;
 
@@ -33,6 +35,14 @@ public class UtilityModel {
             this.accepted = accepted;
         }
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            TrainingExample example = (TrainingExample) o;
+            return accepted == example.accepted &&
+                    Arrays.equals(options, example.options);
+        }
     }
 
     Graph graph;
