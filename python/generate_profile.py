@@ -55,6 +55,17 @@ class Issue:
 def calc_weights(issues):
     weights = {issue.name: round(issue.weight/sum([issue.weight for issue in issues]), 3) for issue in issues}
 
+    sum_of_weights = sum(weights.values())
+
+    for issue in weights.keys():
+        weights[issue] += round(1 - sum_of_weights, 3)
+        weights[issue] = round(weights[issue], 3)
+        break
+
+    sum_of_weights = sum(weights.values())
+
+    assert round(sum_of_weights, 4) == 1.0, sum_of_weights
+
     return weights
 
 
