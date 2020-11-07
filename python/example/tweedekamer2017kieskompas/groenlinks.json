@@ -2,7 +2,19 @@
  "LinearAdditiveUtilitySpace": {
   "name": "groenlinks",
   "issueUtilities": {
-   "Stelling1": {
+   "De kerncentrale in Borssele moet open blijven.": {
+    "discreteutils": {
+     "valueUtilities": {
+      "Helemaal mee eens": 0.1,
+      "Mee eens": 0.3,
+      "Neutraal": 0.5,
+      "Niet mee eens": 0.8,
+      "Helemaal niet mee eens": 1.0,
+      "Geen mening": 0.5
+     }
+    }
+   },
+   "Er moet strengere klimaatwetgeving komen, ook al gaat dit ten koste van economische groei.": {
     "discreteutils": {
      "valueUtilities": {
       "Helemaal mee eens": 0.8,
@@ -13,28 +25,16 @@
       "Geen mening": 0.5
      }
     }
-   },
-   "Stelling2": {
-    "discreteutils": {
-     "valueUtilities": {
-      "Helemaal mee eens": 1.0,
-      "Mee eens": 0.8,
-      "Neutraal": 0.5,
-      "Niet mee eens": 0.3,
-      "Helemaal niet mee eens": 0.1,
-      "Geen mening": 0.5
-     }
-    }
    }
   },
   "issueWeights": {
-   "Stelling1": 0.667,
-   "Stelling2": 0.333
+   "De kerncentrale in Borssele moet open blijven.": 0.333,
+   "Er moet strengere klimaatwetgeving komen, ook al gaat dit ten koste van economische groei.": 0.667
   },
   "domain": {
    "name": "tweedekamer2017kieskompas",
    "issuesValues": {
-    "Stelling1": {
+    "De kerncentrale in Borssele moet open blijven.": {
      "values": [
       "Helemaal mee eens",
       "Mee eens",
@@ -44,7 +44,7 @@
       "Geen mening"
      ]
     },
-    "Stelling2": {
+    "Er moet strengere klimaatwetgeving komen, ook al gaat dit ten koste van economische groei.": {
      "values": [
       "Helemaal mee eens",
       "Mee eens",
