@@ -8,7 +8,7 @@ from dataclasses import dataclass
 
 from generate_domain import *
 
-DOMAIN_NAME="tweedekamer2017.kieskompas.nl"
+DOMAIN_NAME="tweedekamer2017kieskompas"
 POSSIBLE_VALUES = ["Helemaal mee eens",
                    "Mee eens",
                    "Neutraal",
@@ -24,20 +24,13 @@ def generate_for_party(party_name, input_folder, output_folder):
         for row in reader:
             issues.append(Issue(row[0], row[1], float(row[2])))
 
-    print(issues)
-
     profile = create_profile(party_name, issues)
-
-    print(profile)
 
     with open(f"{output_folder}/{party_name}.json", mode="w") as json_file:
         json.dump(profile, json_file, indent=True)
 
     with open(f"{output_folder}/{DOMAIN_NAME}.json", mode="w") as json_file:
         json.dump(generate_domain(DOMAIN_NAME, list(map(lambda i: i.name, issues)), POSSIBLE_VALUES), json_file, indent=True)
-
-    print(json.dumps(profile, indent=True))
-
 
 @dataclass
 class Issue:
@@ -64,9 +57,9 @@ def create_profile(party_name, issues: List[Issue]):
             "name": party_name,
             "issueUtilities": create_issue_utilities(issues),
 
-            "issueWeights": dict({(issue.name, issue.weight/sum([issue.weight for issue in issues])) for issue in issues}),
+            "issueWeights": {issue.name: issue.weight/sum([issue.weight for issue in issues]) for issue in issues},
 
-            "domain": generate_domain(DOMAIN_NAME, map(lambda iss: iss.name, issues), POSSIBLE_VALUES)
+            "domain": generate_domain(DOMAIN_NAME, list(map(lambda iss: iss.name, issues)), POSSIBLE_VALUES)
         }
     }
 
