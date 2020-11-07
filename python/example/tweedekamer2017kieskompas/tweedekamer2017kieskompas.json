@@ -1,0 +1,25 @@
+{
+ "name": "tweedekamer2017kieskompas",
+ "issuesValues": {
+  "Stelling1": {
+   "values": [
+    "Helemaal mee eens",
+    "Mee eens",
+    "Neutraal",
+    "Niet mee eens",
+    "Helemaal niet mee eens",
+    "Geen mening"
+   ]
+  },
+  "Stelling2": {
+   "values": [
+    "Helemaal mee eens",
+    "Mee eens",
+    "Neutraal",
+    "Niet mee eens",
+    "Helemaal niet mee eens",
+    "Geen mening"
+   ]
+  }
+ }
+}
