@@ -51,13 +51,20 @@ class Issue:
 
         return obj
 
+
+def calc_weights(issues):
+    weights = {issue.name: round(issue.weight/sum([issue.weight for issue in issues]), 3) for issue in issues}
+
+    return weights
+
+
 def create_profile(party_name, issues: List[Issue]):
     resultObject = {
         "LinearAdditiveUtilitySpace": {
             "name": party_name,
             "issueUtilities": create_issue_utilities(issues),
 
-            "issueWeights": {issue.name: issue.weight/sum([issue.weight for issue in issues]) for issue in issues},
+            "issueWeights": calc_weights(issues),
 
             "domain": generate_domain(DOMAIN_NAME, list(map(lambda iss: iss.name, issues)), POSSIBLE_VALUES)
         }
