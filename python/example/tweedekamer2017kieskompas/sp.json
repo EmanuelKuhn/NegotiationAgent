@@ -1,15 +1,15 @@
 {
  "LinearAdditiveUtilitySpace": {
-  "name": "groenlinks",
+  "name": "sp",
   "issueUtilities": {
    "Er moet meer geld komen voor Defensie": {
     "discreteutils": {
      "valueUtilities": {
       "Helemaal mee eens": 0.1,
-      "Mee eens": 0.5,
-      "Neutraal": 1.0,
-      "Niet mee eens": 0.5,
-      "Helemaal niet mee eens": 0.1,
+      "Mee eens": 0.4,
+      "Neutraal": 0.7,
+      "Niet mee eens": 1.0,
+      "Helemaal niet mee eens": 0.8,
       "Geen mening": 0.5
      }
     }
@@ -18,10 +18,10 @@
     "discreteutils": {
      "valueUtilities": {
       "Helemaal mee eens": 0.1,
-      "Mee eens": 0.3,
-      "Neutraal": 0.5,
-      "Niet mee eens": 0.8,
-      "Helemaal niet mee eens": 1.0,
+      "Mee eens": 0.4,
+      "Neutraal": 0.7,
+      "Niet mee eens": 1.0,
+      "Helemaal niet mee eens": 0.8,
       "Geen mening": 0.5
      }
     }
@@ -41,10 +41,10 @@
    "Er mogen geen sociale huurwoningen meer worden verkocht": {
     "discreteutils": {
      "valueUtilities": {
-      "Helemaal mee eens": 0.8,
-      "Mee eens": 1.0,
-      "Neutraal": 0.7,
-      "Niet mee eens": 0.4,
+      "Helemaal mee eens": 1.0,
+      "Mee eens": 0.8,
+      "Neutraal": 0.5,
+      "Niet mee eens": 0.3,
       "Helemaal niet mee eens": 0.1,
       "Geen mening": 0.5
      }
@@ -66,10 +66,10 @@
     "discreteutils": {
      "valueUtilities": {
       "Helemaal mee eens": 0.1,
-      "Mee eens": 0.5,
-      "Neutraal": 1.0,
-      "Niet mee eens": 0.5,
-      "Helemaal niet mee eens": 0.1,
+      "Mee eens": 0.4,
+      "Neutraal": 0.7,
+      "Niet mee eens": 1.0,
+      "Helemaal niet mee eens": 0.8,
       "Geen mening": 0.5
      }
     }
@@ -89,10 +89,10 @@
    "In plaats van een lening, moet de studiefinanciering weer een gift worden": {
     "discreteutils": {
      "valueUtilities": {
-      "Helemaal mee eens": 0.1,
-      "Mee eens": 0.5,
-      "Neutraal": 1.0,
-      "Niet mee eens": 0.5,
+      "Helemaal mee eens": 1.0,
+      "Mee eens": 0.8,
+      "Neutraal": 0.5,
+      "Niet mee eens": 0.3,
       "Helemaal niet mee eens": 0.1,
       "Geen mening": 0.5
      }
@@ -101,10 +101,10 @@
    "Nederlandse burgers moeten een referendum kunnen aanvragen om besluiten van het Parlement terug te kunnen draaien": {
     "discreteutils": {
      "valueUtilities": {
-      "Helemaal mee eens": 0.8,
-      "Mee eens": 1.0,
-      "Neutraal": 0.7,
-      "Niet mee eens": 0.4,
+      "Helemaal mee eens": 1.0,
+      "Mee eens": 0.8,
+      "Neutraal": 0.5,
+      "Niet mee eens": 0.3,
       "Helemaal niet mee eens": 0.1,
       "Geen mening": 0.5
      }
@@ -126,10 +126,10 @@
     "discreteutils": {
      "valueUtilities": {
       "Helemaal mee eens": 0.1,
-      "Mee eens": 0.3,
-      "Neutraal": 0.5,
-      "Niet mee eens": 0.8,
-      "Helemaal niet mee eens": 1.0,
+      "Mee eens": 0.4,
+      "Neutraal": 0.7,
+      "Niet mee eens": 1.0,
+      "Helemaal niet mee eens": 0.8,
       "Geen mening": 0.5
      }
     }
@@ -137,11 +137,11 @@
    "ZZP'ers moeten worden verplicht om een arbeidsongeschiktheidsverzekering af te sluiten": {
     "discreteutils": {
      "valueUtilities": {
-      "Helemaal mee eens": 0.8,
-      "Mee eens": 1.0,
+      "Helemaal mee eens": 0.1,
+      "Mee eens": 0.4,
       "Neutraal": 0.7,
-      "Niet mee eens": 0.4,
-      "Helemaal niet mee eens": 0.1,
+      "Niet mee eens": 1.0,
+      "Helemaal niet mee eens": 0.8,
       "Geen mening": 0.5
      }
     }
@@ -173,11 +173,11 @@
    "De AOW-leeftijd mag niet verder worden verhoogd dan de huidige 67 jaar": {
     "discreteutils": {
      "valueUtilities": {
-      "Helemaal mee eens": 0.1,
-      "Mee eens": 0.4,
-      "Neutraal": 0.7,
-      "Niet mee eens": 1.0,
-      "Helemaal niet mee eens": 0.8,
+      "Helemaal mee eens": 1.0,
+      "Mee eens": 0.8,
+      "Neutraal": 0.5,
+      "Niet mee eens": 0.3,
+      "Helemaal niet mee eens": 0.1,
       "Geen mening": 0.5
      }
     }
@@ -185,10 +185,10 @@
    "Het huidige systeem van meerdere zorgverzekeraars moet vervangen worden door een zorgfonds van de overheid": {
     "discreteutils": {
      "valueUtilities": {
-      "Helemaal mee eens": 0.1,
-      "Mee eens": 0.5,
-      "Neutraal": 1.0,
-      "Niet mee eens": 0.5,
+      "Helemaal mee eens": 1.0,
+      "Mee eens": 0.8,
+      "Neutraal": 0.5,
+      "Niet mee eens": 0.3,
       "Helemaal niet mee eens": 0.1,
       "Geen mening": 0.5
      }
@@ -197,10 +197,10 @@
    "Het eigen risico in de zorg moet worden afgeschaft, ook al gaan de premies daardoor omhoog": {
     "discreteutils": {
      "valueUtilities": {
-      "Helemaal mee eens": 0.8,
-      "Mee eens": 1.0,
-      "Neutraal": 0.7,
-      "Niet mee eens": 0.4,
+      "Helemaal mee eens": 1.0,
+      "Mee eens": 0.8,
+      "Neutraal": 0.5,
+      "Niet mee eens": 0.3,
       "Helemaal niet mee eens": 0.1,
       "Geen mening": 0.5
      }
@@ -245,28 +245,16 @@
    "Ouderen die vinden dat hun leven voltooid is, morgen met professionele hulp een einde aan hun leven maken": {
     "discreteutils": {
      "valueUtilities": {
-      "Helemaal mee eens": 1.0,
-      "Mee eens": 0.8,
-      "Neutraal": 0.5,
-      "Niet mee eens": 0.3,
-      "Helemaal niet mee eens": 0.1,
+      "Helemaal mee eens": 0.1,
+      "Mee eens": 0.4,
+      "Neutraal": 0.7,
+      "Niet mee eens": 1.0,
+      "Helemaal niet mee eens": 0.8,
       "Geen mening": 0.5
      }
     }
    },
    "Nederland moet minder vluchtelingen opvangen": {
-    "discreteutils": {
-     "valueUtilities": {
-      "Helemaal mee eens": 0.1,
-      "Mee eens": 0.3,
-      "Neutraal": 0.5,
-      "Niet mee eens": 0.8,
-      "Helemaal niet mee eens": 1.0,
-      "Geen mening": 0.5
-     }
-    }
-   },
-   "Bepaalde sociale groepen waarvan de politie denkt dat ze vaker crimineel zijn, moeten strenger gecontroleerd worden": {
     "discreteutils": {
      "valueUtilities": {
       "Helemaal mee eens": 0.1,
@@ -278,13 +266,25 @@
      }
     }
    },
+   "Bepaalde sociale groepen waarvan de politie denkt dat ze vaker crimineel zijn, moeten strenger gecontroleerd worden": {
+    "discreteutils": {
+     "valueUtilities": {
+      "Helemaal mee eens": 0.1,
+      "Mee eens": 0.5,
+      "Neutraal": 1.0,
+      "Niet mee eens": 0.5,
+      "Helemaal niet mee eens": 0.1,
+      "Geen mening": 0.5
+     }
+    }
+   },
    "Zwarte piet moet roetveegpiet worden": {
     "discreteutils": {
      "valueUtilities": {
-      "Helemaal mee eens": 0.8,
-      "Mee eens": 1.0,
-      "Neutraal": 0.7,
-      "Niet mee eens": 0.4,
+      "Helemaal mee eens": 0.1,
+      "Mee eens": 0.5,
+      "Neutraal": 1.0,
+      "Niet mee eens": 0.5,
       "Helemaal niet mee eens": 0.1,
       "Geen mening": 0.5
      }
@@ -293,10 +293,10 @@
    "Vanaf 2025 mogen in Nederland alleen nog maar elektrische auto's verkocht worden": {
     "discreteutils": {
      "valueUtilities": {
-      "Helemaal mee eens": 1.0,
-      "Mee eens": 0.8,
-      "Neutraal": 0.5,
-      "Niet mee eens": 0.3,
+      "Helemaal mee eens": 0.8,
+      "Mee eens": 1.0,
+      "Neutraal": 0.7,
+      "Niet mee eens": 0.4,
       "Helemaal niet mee eens": 0.1,
       "Geen mening": 0.5
      }
@@ -329,18 +329,6 @@
    "De privacy van burgers mag worden beperkt om terrorisme te bestrijden": {
     "discreteutils": {
      "valueUtilities": {
-      "Helemaal mee eens": 0.1,
-      "Mee eens": 0.4,
-      "Neutraal": 0.7,
-      "Niet mee eens": 1.0,
-      "Helemaal niet mee eens": 0.8,
-      "Geen mening": 0.5
-     }
-    }
-   },
-   "Het belastingtarief voor de hoogste inkomens moet omhoog": {
-    "discreteutils": {
-     "valueUtilities": {
       "Helemaal mee eens": 0.8,
       "Mee eens": 1.0,
       "Neutraal": 0.7,
@@ -350,50 +338,62 @@
      }
     }
    },
+   "Het belastingtarief voor de hoogste inkomens moet omhoog": {
+    "discreteutils": {
+     "valueUtilities": {
+      "Helemaal mee eens": 1.0,
+      "Mee eens": 0.8,
+      "Neutraal": 0.5,
+      "Niet mee eens": 0.3,
+      "Helemaal niet mee eens": 0.1,
+      "Geen mening": 0.5
+     }
+    }
+   },
    "Het moet voor bedrijven makkelijker worden om werknemers te ontslaan": {
     "discreteutils": {
      "valueUtilities": {
       "Helemaal mee eens": 0.1,
-      "Mee eens": 0.4,
-      "Neutraal": 0.7,
-      "Niet mee eens": 1.0,
-      "Helemaal niet mee eens": 0.8,
+      "Mee eens": 0.3,
+      "Neutraal": 0.5,
+      "Niet mee eens": 0.8,
+      "Helemaal niet mee eens": 1.0,
       "Geen mening": 0.5
      }
     }
    }
   },
   "issueWeights": {
-   "Er moet meer geld komen voor Defensie": 0.01,
-   "Nederland moet uit de EU stappen": 0.04,
-   "Wietteelt moet legaal worden": 0.03,
-   "Er mogen geen sociale huurwoningen meer worden verkocht": 0.02,
-   "De kerncentrale in Borssele moet open blijven": 0.02,
-   "Rechters moeten weer vaker gevangenisstraf opleggen in plaats van taakstraffen": 0.02,
-   "Sociale dienstplicht voor jongeren": 0.02,
-   "In plaats van een lening, moet de studiefinanciering weer een gift worden": 0.01,
-   "Nederlandse burgers moeten een referendum kunnen aanvragen om besluiten van het Parlement terug te kunnen draaien": 0.05,
-   "Grote multinationale bedrijven betalen in Nederland te weinig belasting": 0.04,
-   "Op de NPO moet worden bezuinigd": 0.05,
-   "ZZP'ers moeten worden verplicht om een arbeidsongeschiktheidsverzekering af te sluiten": 0.03,
-   "Om de files te verminderen moet de overheid investeren in nieuwe wegen, in plaats van te investeren in openbaar vervoer": 0.02,
-   "Er moet strengere klimaatwetgeving komen, ook al gaat dit ten koste van economische groei": 0.03,
-   "De AOW-leeftijd mag niet verder worden verhoogd dan de huidige 67 jaar": 0.05,
-   "Het huidige systeem van meerdere zorgverzekeraars moet vervangen worden door een zorgfonds van de overheid": 0.02,
-   "Het eigen risico in de zorg moet worden afgeschaft, ook al gaan de premies daardoor omhoog": 0.05,
-   "Het moet strafbaar worden om zonder verblijfsvergunning in Nederland te zijn": 0.04,
-   "In plaats van een vast bedrag per auto, moeten automobilisten per gereden kilometer belasting gaan betalen": 0.05,
-   "Op ontwikkelingssamenwerking moet worden bezuinigd": 0.03,
-   "Ouderen die vinden dat hun leven voltooid is, morgen met professionele hulp een einde aan hun leven maken": 0.03,
-   "Nederland moet minder vluchtelingen opvangen": 0.05,
-   "Bepaalde sociale groepen waarvan de politie denkt dat ze vaker crimineel zijn, moeten strenger gecontroleerd worden": 0.04,
-   "Zwarte piet moet roetveegpiet worden": 0.05,
-   "Vanaf 2025 mogen in Nederland alleen nog maar elektrische auto's verkocht worden": 0.04,
-   "Nederlanders die naar Syrie zijn gegaan om te vechten mogen niet terugkeren naar ons land": 0.02,
-   "Alle volwassenen moeten automatisch orgaandonor zijn, tenzij zij expliciet aangeven dat niet te willen": 0.04,
-   "De privacy van burgers mag worden beperkt om terrorisme te bestrijden": 0.04,
-   "Het belastingtarief voor de hoogste inkomens moet omhoog": 0.03,
-   "Het moet voor bedrijven makkelijker worden om werknemers te ontslaan": 0.03
+   "Er moet meer geld komen voor Defensie": 0.032,
+   "Nederland moet uit de EU stappen": 0.042,
+   "Wietteelt moet legaal worden": 0.032,
+   "Er mogen geen sociale huurwoningen meer worden verkocht": 0.032,
+   "De kerncentrale in Borssele moet open blijven": 0.042,
+   "Rechters moeten weer vaker gevangenisstraf opleggen in plaats van taakstraffen": 0.021,
+   "Sociale dienstplicht voor jongeren": 0.032,
+   "In plaats van een lening, moet de studiefinanciering weer een gift worden": 0.053,
+   "Nederlandse burgers moeten een referendum kunnen aanvragen om besluiten van het Parlement terug te kunnen draaien": 0.053,
+   "Grote multinationale bedrijven betalen in Nederland te weinig belasting": 0.032,
+   "Op de NPO moet worden bezuinigd": 0.032,
+   "ZZP'ers moeten worden verplicht om een arbeidsongeschiktheidsverzekering af te sluiten": 0.021,
+   "Om de files te verminderen moet de overheid investeren in nieuwe wegen, in plaats van te investeren in openbaar vervoer": 0.021,
+   "Er moet strengere klimaatwetgeving komen, ook al gaat dit ten koste van economische groei": 0.042,
+   "De AOW-leeftijd mag niet verder worden verhoogd dan de huidige 67 jaar": 0.032,
+   "Het huidige systeem van meerdere zorgverzekeraars moet vervangen worden door een zorgfonds van de overheid": 0.053,
+   "Het eigen risico in de zorg moet worden afgeschaft, ook al gaan de premies daardoor omhoog": 0.032,
+   "Het moet strafbaar worden om zonder verblijfsvergunning in Nederland te zijn": 0.053,
+   "In plaats van een vast bedrag per auto, moeten automobilisten per gereden kilometer belasting gaan betalen": 0.032,
+   "Op ontwikkelingssamenwerking moet worden bezuinigd": 0.021,
+   "Ouderen die vinden dat hun leven voltooid is, morgen met professionele hulp een einde aan hun leven maken": 0.032,
+   "Nederland moet minder vluchtelingen opvangen": 0.042,
+   "Bepaalde sociale groepen waarvan de politie denkt dat ze vaker crimineel zijn, moeten strenger gecontroleerd worden": 0.011,
+   "Zwarte piet moet roetveegpiet worden": 0.011,
+   "Vanaf 2025 mogen in Nederland alleen nog maar elektrische auto's verkocht worden": 0.021,
+   "Nederlanders die naar Syrie zijn gegaan om te vechten mogen niet terugkeren naar ons land": 0.032,
+   "Alle volwassenen moeten automatisch orgaandonor zijn, tenzij zij expliciet aangeven dat niet te willen": 0.042,
+   "De privacy van burgers mag worden beperkt om terrorisme te bestrijden": 0.032,
+   "Het belastingtarief voor de hoogste inkomens moet omhoog": 0.042,
+   "Het moet voor bedrijven makkelijker worden om werknemers te ontslaan": 0.032
   },
   "domain": {
    "name": "tweedekamer2017kieskompas",

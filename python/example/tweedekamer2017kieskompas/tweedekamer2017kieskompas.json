@@ -1,7 +1,7 @@
 {
  "name": "tweedekamer2017kieskompas",
  "issuesValues": {
-  "Stelling1": {
+  "Er moet meer geld komen voor Defensie": {
    "values": [
     "Helemaal mee eens",
     "Mee eens",
@@ -11,7 +11,287 @@
     "Geen mening"
    ]
   },
-  "Stelling2": {
+  "Nederland moet uit de EU stappen": {
+   "values": [
+    "Helemaal mee eens",
+    "Mee eens",
+    "Neutraal",
+    "Niet mee eens",
+    "Helemaal niet mee eens",
+    "Geen mening"
+   ]
+  },
+  "Wietteelt moet legaal worden": {
+   "values": [
+    "Helemaal mee eens",
+    "Mee eens",
+    "Neutraal",
+    "Niet mee eens",
+    "Helemaal niet mee eens",
+    "Geen mening"
+   ]
+  },
+  "Er mogen geen sociale huurwoningen meer worden verkocht": {
+   "values": [
+    "Helemaal mee eens",
+    "Mee eens",
+    "Neutraal",
+    "Niet mee eens",
+    "Helemaal niet mee eens",
+    "Geen mening"
+   ]
+  },
+  "De kerncentrale in Borssele moet open blijven": {
+   "values": [
+    "Helemaal mee eens",
+    "Mee eens",
+    "Neutraal",
+    "Niet mee eens",
+    "Helemaal niet mee eens",
+    "Geen mening"
+   ]
+  },
+  "Rechters moeten weer vaker gevangenisstraf opleggen in plaats van taakstraffen": {
+   "values": [
+    "Helemaal mee eens",
+    "Mee eens",
+    "Neutraal",
+    "Niet mee eens",
+    "Helemaal niet mee eens",
+    "Geen mening"
+   ]
+  },
+  "Sociale dienstplicht voor jongeren": {
+   "values": [
+    "Helemaal mee eens",
+    "Mee eens",
+    "Neutraal",
+    "Niet mee eens",
+    "Helemaal niet mee eens",
+    "Geen mening"
+   ]
+  },
+  "In plaats van een lening, moet de studiefinanciering weer een gift worden": {
+   "values": [
+    "Helemaal mee eens",
+    "Mee eens",
+    "Neutraal",
+    "Niet mee eens",
+    "Helemaal niet mee eens",
+    "Geen mening"
+   ]
+  },
+  "Nederlandse burgers moeten een referendum kunnen aanvragen om besluiten van het Parlement terug te kunnen draaien": {
+   "values": [
+    "Helemaal mee eens",
+    "Mee eens",
+    "Neutraal",
+    "Niet mee eens",
+    "Helemaal niet mee eens",
+    "Geen mening"
+   ]
+  },
+  "Grote multinationale bedrijven betalen in Nederland te weinig belasting": {
+   "values": [
+    "Helemaal mee eens",
+    "Mee eens",
+    "Neutraal",
+    "Niet mee eens",
+    "Helemaal niet mee eens",
+    "Geen mening"
+   ]
+  },
+  "Op de NPO moet worden bezuinigd": {
+   "values": [
+    "Helemaal mee eens",
+    "Mee eens",
+    "Neutraal",
+    "Niet mee eens",
+    "Helemaal niet mee eens",
+    "Geen mening"
+   ]
+  },
+  "ZZP'ers moeten worden verplicht om een arbeidsongeschiktheidsverzekering af te sluiten": {
+   "values": [
+    "Helemaal mee eens",
+    "Mee eens",
+    "Neutraal",
+    "Niet mee eens",
+    "Helemaal niet mee eens",
+    "Geen mening"
+   ]
+  },
+  "Om de files te verminderen moet de overheid investeren in nieuwe wegen, in plaats van te investeren in openbaar vervoer": {
+   "values": [
+    "Helemaal mee eens",
+    "Mee eens",
+    "Neutraal",
+    "Niet mee eens",
+    "Helemaal niet mee eens",
+    "Geen mening"
+   ]
+  },
+  "Er moet strengere klimaatwetgeving komen, ook al gaat dit ten koste van economische groei": {
+   "values": [
+    "Helemaal mee eens",
+    "Mee eens",
+    "Neutraal",
+    "Niet mee eens",
+    "Helemaal niet mee eens",
+    "Geen mening"
+   ]
+  },
+  "De AOW-leeftijd mag niet verder worden verhoogd dan de huidige 67 jaar": {
+   "values": [
+    "Helemaal mee eens",
+    "Mee eens",
+    "Neutraal",
+    "Niet mee eens",
+    "Helemaal niet mee eens",
+    "Geen mening"
+   ]
+  },
+  "Het huidige systeem van meerdere zorgverzekeraars moet vervangen worden door een zorgfonds van de overheid": {
+   "values": [
+    "Helemaal mee eens",
+    "Mee eens",
+    "Neutraal",
+    "Niet mee eens",
+    "Helemaal niet mee eens",
+    "Geen mening"
+   ]
+  },
+  "Het eigen risico in de zorg moet worden afgeschaft, ook al gaan de premies daardoor omhoog": {
+   "values": [
+    "Helemaal mee eens",
+    "Mee eens",
+    "Neutraal",
+    "Niet mee eens",
+    "Helemaal niet mee eens",
+    "Geen mening"
+   ]
+  },
+  "Het moet strafbaar worden om zonder verblijfsvergunning in Nederland te zijn": {
+   "values": [
+    "Helemaal mee eens",
+    "Mee eens",
+    "Neutraal",
+    "Niet mee eens",
+    "Helemaal niet mee eens",
+    "Geen mening"
+   ]
+  },
+  "In plaats van een vast bedrag per auto, moeten automobilisten per gereden kilometer belasting gaan betalen": {
+   "values": [
+    "Helemaal mee eens",
+    "Mee eens",
+    "Neutraal",
+    "Niet mee eens",
+    "Helemaal niet mee eens",
+    "Geen mening"
+   ]
+  },
+  "Op ontwikkelingssamenwerking moet worden bezuinigd": {
+   "values": [
+    "Helemaal mee eens",
+    "Mee eens",
+    "Neutraal",
+    "Niet mee eens",
+    "Helemaal niet mee eens",
+    "Geen mening"
+   ]
+  },
+  "Ouderen die vinden dat hun leven voltooid is, morgen met professionele hulp een einde aan hun leven maken": {
+   "values": [
+    "Helemaal mee eens",
+    "Mee eens",
+    "Neutraal",
+    "Niet mee eens",
+    "Helemaal niet mee eens",
+    "Geen mening"
+   ]
+  },
+  "Nederland moet minder vluchtelingen opvangen": {
+   "values": [
+    "Helemaal mee eens",
+    "Mee eens",
+    "Neutraal",
+    "Niet mee eens",
+    "Helemaal niet mee eens",
+    "Geen mening"
+   ]
+  },
+  "Bepaalde sociale groepen waarvan de politie denkt dat ze vaker crimineel zijn, moeten strenger gecontroleerd worden": {
+   "values": [
+    "Helemaal mee eens",
+    "Mee eens",
+    "Neutraal",
+    "Niet mee eens",
+    "Helemaal niet mee eens",
+    "Geen mening"
+   ]
+  },
+  "Zwarte piet moet roetveegpiet worden": {
+   "values": [
+    "Helemaal mee eens",
+    "Mee eens",
+    "Neutraal",
+    "Niet mee eens",
+    "Helemaal niet mee eens",
+    "Geen mening"
+   ]
+  },
+  "Vanaf 2025 mogen in Nederland alleen nog maar elektrische auto's verkocht worden": {
+   "values": [
+    "Helemaal mee eens",
+    "Mee eens",
+    "Neutraal",
+    "Niet mee eens",
+    "Helemaal niet mee eens",
+    "Geen mening"
+   ]
+  },
+  "Nederlanders die naar Syrie zijn gegaan om te vechten mogen niet terugkeren naar ons land": {
+   "values": [
+    "Helemaal mee eens",
+    "Mee eens",
+    "Neutraal",
+    "Niet mee eens",
+    "Helemaal niet mee eens",
+    "Geen mening"
+   ]
+  },
+  "Alle volwassenen moeten automatisch orgaandonor zijn, tenzij zij expliciet aangeven dat niet te willen": {
+   "values": [
+    "Helemaal mee eens",
+    "Mee eens",
+    "Neutraal",
+    "Niet mee eens",
+    "Helemaal niet mee eens",
+    "Geen mening"
+   ]
+  },
+  "De privacy van burgers mag worden beperkt om terrorisme te bestrijden": {
+   "values": [
+    "Helemaal mee eens",
+    "Mee eens",
+    "Neutraal",
+    "Niet mee eens",
+    "Helemaal niet mee eens",
+    "Geen mening"
+   ]
+  },
+  "Het belastingtarief voor de hoogste inkomens moet omhoog": {
+   "values": [
+    "Helemaal mee eens",
+    "Mee eens",
+    "Neutraal",
+    "Niet mee eens",
+    "Helemaal niet mee eens",
+    "Geen mening"
+   ]
+  },
+  "Het moet voor bedrijven makkelijker worden om werknemers te ontslaan": {
    "values": [
     "Helemaal mee eens",
     "Mee eens",

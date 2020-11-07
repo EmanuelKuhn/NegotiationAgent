@@ -20,7 +20,7 @@ def generate_for_party(party_name, input_folder, output_folder):
     issues = []
 
     with open(f'{input_folder}/{party_name}.csv', newline='') as csvfile:
-        reader = csv.reader(csvfile)
+        reader = csv.reader(csvfile, delimiter=";")
         for row in reader:
             issues.append(Issue(row[0], row[1], float(row[2])))
 
