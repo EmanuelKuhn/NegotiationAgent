@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>geniusweb.exampleparties</groupId>
-	<artifactId>randomparty</artifactId>
+	<artifactId>ai2020.grpup17</artifactId>
 	<version>1.5.6</version> <!-- must equal ${geniusweb.version} -->
 	<packaging>jar</packaging>
 
@@ -196,7 +196,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>geniusweb.exampleparties.randomparty.RandomParty</mainClass>
+							<mainClass>ai2020.group17.Group17_Main</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
@@ -251,7 +251,7 @@
 						<manifest>
 							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
 							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-							<mainClass>geniusweb.exampleparties.randomparty.RandomParty</mainClass>
+							<mainClass>ai2020.group17.Group17_Main</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
