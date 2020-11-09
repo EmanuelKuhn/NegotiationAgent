@@ -169,7 +169,20 @@ def compute_value_utils(value: str):
                 }
             }
         }
+    elif value == "Geen mening":
+        return {
+            "discreteutils": {
 
+                "valueUtilities": {
+                    "Helemaal mee eens": 1.0,
+                    "Mee eens": 1.0,
+                    "Neutraal": 1.0,
+                    "Niet mee eens": 1.0,
+                    "Helemaal niet mee eens": 1.0,
+                    "Geen mening": 1.0
+                }
+            }
+        }
 if __name__ == '__main__':
     party_name = "groenlinks"
 

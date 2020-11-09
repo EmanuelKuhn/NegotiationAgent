@@ -2,7 +2,18 @@
  "LinearAdditiveUtilitySpace": {
   "name": "pvda",
   "issueUtilities": {
-   "Er moet meer geld komen voor Defensie": null,
+   "Er moet meer geld komen voor Defensie": {
+    "discreteutils": {
+     "valueUtilities": {
+      "Helemaal mee eens": 0.8,
+      "Mee eens": 1.0,
+      "Neutraal": 0.7,
+      "Niet mee eens": 0.4,
+      "Helemaal niet mee eens": 0.1,
+      "Geen mening": 0.5
+     }
+    }
+   },
    "Nederland moet uit de EU stappen": {
     "discreteutils": {
      "valueUtilities": {
