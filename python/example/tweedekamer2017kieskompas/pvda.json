@@ -339,7 +339,18 @@
      }
     }
    },
-   "Het moet voor bedrijven makkelijker worden om werknemers te ontslaan": null
+   "Het moet voor bedrijven makkelijker worden om werknemers te ontslaan": {
+    "discreteutils": {
+     "valueUtilities": {
+      "Helemaal mee eens": 0.1,
+      "Mee eens": 0.3,
+      "Neutraal": 0.5,
+      "Niet mee eens": 0.8,
+      "Helemaal niet mee eens": 1.0,
+      "Geen mening": 0.5
+     }
+    }
+   }
   },
   "issueWeights": {
    "Er moet meer geld komen voor Defensie": 0.028,
