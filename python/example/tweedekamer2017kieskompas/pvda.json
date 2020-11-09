@@ -98,7 +98,18 @@
      }
     }
    },
-   "Nederlandse burgers moeten een referendum kunnen aanvragen om besluiten van het Parlement terug te kunnen draaien": null,
+   "Nederlandse burgers moeten een referendum kunnen aanvragen om besluiten van het Parlement terug te kunnen draaien": {
+    "discreteutils": {
+     "valueUtilities": {
+      "Helemaal mee eens": 0.8,
+      "Mee eens": 1.0,
+      "Neutraal": 0.7,
+      "Niet mee eens": 0.4,
+      "Helemaal niet mee eens": 0.1,
+      "Geen mening": 0.5
+     }
+    }
+   },
    "Grote multinationale bedrijven betalen in Nederland te weinig belasting": {
     "discreteutils": {
      "valueUtilities": {
