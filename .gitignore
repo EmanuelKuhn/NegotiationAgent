@@ -1,3 +1,5 @@
 target/
 bin/
 .metadata/
+.idea/
+.vscode/
