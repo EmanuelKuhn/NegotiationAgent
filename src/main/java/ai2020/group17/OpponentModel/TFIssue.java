@@ -14,7 +14,7 @@ import java.util.function.Supplier;
 
 import static org.tensorflow.op.core.Placeholder.shape;
 
-public class Issue {
+public class TFIssue {
 
     // Just for debugging
     int issueIdx;
@@ -25,7 +25,7 @@ public class Issue {
 
     int nOptions;
 
-    public Issue(Ops tf, int nOptions, int issueIdx) {
+    public TFIssue(Ops tf, int nOptions, int issueIdx) {
         this.issueIdx = issueIdx;
 
         this.nOptions = nOptions;
@@ -56,17 +56,21 @@ public class Issue {
     }
 
     public Assign<TFloat32> init(Ops tf, float initializationValue) {
-        return init(tf, () -> Helper.repeat(initializationValue, nOptions));
+        return init(tf, () -> TFHelper.repeat(initializationValue, nOptions));
     }
 
-    private static Operand<TFloat32> issueUtility(Ops tf, Operand<TFloat32> oneHotVector, Operand<TFloat32> weights) {
-
-        Operand<TFloat32> weightsClipped = Helper.clipByValuePreserveGradient(
+    protected static Operand<TFloat32> weightsClipped(Ops tf, Operand<TFloat32> weights) {
+        return TFHelper.clipByValuePreserveGradient(
                 tf,
                 weights,
                 tf.constant(0.0f),
                 tf.constant(1.0f)
         );
+    }
+
+    private static Operand<TFloat32> issueUtility(Ops tf, Operand<TFloat32> oneHotVector, Operand<TFloat32> weights) {
+
+        Operand<TFloat32> weightsClipped = weightsClipped(tf, weights);
 
         Mul<TFloat32> inter1 = tf.math.mul(oneHotVector, weightsClipped);
 

@@ -16,34 +16,35 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
-public class Utility {
+// Class containing methods to apply the tf operations concerned with weights and calculting the utility.
+public class TFUtility {
 
-    Issue[] issues;
+    TFIssue[] issues;
     Map<String, Integer> issuesIdx = new HashMap<>();
 
     Variable<TFloat32> weights;
 //    Assign<TFloat32> weightsInit;
 
-    public Utility(Ops tf, int[] issuesOptions) {
+    public TFUtility(Ops tf, int[] issuesOptions) {
 
-        issues = new Issue[issuesOptions.length];
+        issues = new TFIssue[issuesOptions.length];
 
         for(int i = 0; i < issues.length; i++) {
-            issues[i] = new Issue(tf, issuesOptions[i], i);
+            issues[i] = new TFIssue(tf, issuesOptions[i], i);
         }
 
         weights = tf.variable(Shape.of(issues.length), TFloat32.DTYPE);
     }
 
     public Assign<TFloat32> initWeights(Ops tf, float initializationValue) {
-        return initWeights(tf, () -> Helper.repeat(initializationValue, issues.length));
+        return initWeights(tf, () -> TFHelper.repeat(initializationValue, issues.length));
     }
 
     public List<Assign<TFloat32>> initIssueWeights(Ops tf, float initializationValue) {
 
         List<Assign<TFloat32>> assigns = new ArrayList<>();
 
-        for (Issue issue:issues) {
+        for (TFIssue issue:issues) {
             assigns.add(issue.init(tf, initializationValue));
         }
 
@@ -96,18 +97,23 @@ public class Utility {
         return gradientDescentList;
     }
 
+    public static Operand<TFloat32> normalizedWeights(Ops tf, Operand<TFloat32> weights) {
+        ReduceSum<TFloat32> sumOfWeights = tf.reduceSum(weights, tf.constant(0));
+
+        return tf.math.div(weights, sumOfWeights);
+    }
+
     private static Operand<TFloat32> utility(Ops tf, Iterable<Operand<TFloat32>> issueUtilities, Operand<TFloat32> weights) {
 
         Stack<TFloat32> utilities = tf.stack(issueUtilities);
 
-        ReduceSum<TFloat32> sumOfWeights = tf.reduceSum(weights, tf.constant(0));
-        Div<TFloat32> normalizedWeights = tf.math.div(weights, sumOfWeights);
+        Operand<TFloat32> normalizedWeights = normalizedWeights(tf, weights);
 
         Mul<TFloat32> inter1 = tf.math.mul(utilities, normalizedWeights);
         ReduceSum<TFloat32> result = tf.reduceSum(inter1, tf.constant(0));
 
         tf.ensureShape(result, Shape.scalar());
 
-        return (result);
+        return result;
     }
 }

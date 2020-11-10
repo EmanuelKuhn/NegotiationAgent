@@ -1,10 +1,12 @@
 package ai2020.group17.OpponentModel;
 
+import java.util.stream.Stream;
+
 import org.tensorflow.Operand;
 import org.tensorflow.op.Ops;
 import org.tensorflow.types.family.TType;
 
-public class Helper {
+public class TFHelper {
     public static <T extends TType> Operand<T> clipByValuePreserveGradient(Ops tf, Operand<T> t, Operand<T> clipValueMin, Operand<T> clipValueMax) {
         // Clip, but stop gradients (clipByValue gradients are not supported in the java version, plus
         // it might not matter a lot see: https://github.com/tensorflow/tensorflow/issues/44333)
@@ -23,6 +25,17 @@ public class Helper {
         return array;
     }
 
+//    // I miss Python
+//    public static Stream<Integer> range(int from, int to) {
+////    	return Stream.iterate(from, (i) -> to > i, (i) -> i + 1);
+//    }
+    
+//    // I miss Python
+//    public static Stream<Integer> range(int to) {
+//    	return range(0, to);
+//    }
+    
+    
     public static float[] floatArray(float... numbers) {
         return numbers;
     }

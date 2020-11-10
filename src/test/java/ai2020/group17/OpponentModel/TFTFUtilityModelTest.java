@@ -2,15 +2,13 @@ package ai2020.group17.OpponentModel;
 
 import org.junit.jupiter.api.RepeatedTest;
 
-import ai2020.group17.OpponentModel.UtilityModel;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class UtilityModelTest {
+class TFTFUtilityModelTest {
 
     @RepeatedTest(10)
     // This is obviously a probabilistic test, not sure how to auto run more than once though
@@ -20,7 +18,7 @@ class UtilityModelTest {
         boolean randomModelIsTooBiased;
 
         KnownUtilityValueModel hiddenModel;
-        List<UtilityModel.TrainingExample> examples;
+        List<TFUtilityModel.TrainingExample> examples;
         long accepted;
         do {
 
@@ -37,18 +35,18 @@ class UtilityModelTest {
         System.out.println("" + accepted + " of " + examples.size() + " training examples were positive");
 
         // The tensorflow model that will be trained
-        UtilityModel model = new UtilityModel(hiddenModel.issuesOptions);
+        TFUtilityModel model = new TFUtilityModel(hiddenModel.issuesOptions);
 
         // Train the model
         model.train(hiddenModel.generateExamples(100));
 
-        List<UtilityModel.TrainingExample> testSet = hiddenModel.generateExamples(1000);
+        List<TFUtilityModel.TrainingExample> testSet = hiddenModel.generateExamples(1000);
 
         float correct = 0;
         float wrong = 0;
 
         // Compute accuracy of the trained model
-        for(UtilityModel.TrainingExample example: testSet) {
+        for(TFUtilityModel.TrainingExample example: testSet) {
             float prediction = model.predict(example.options);
 
             if (Math.abs(prediction - (example.accepted ? 1.0f : 0.0f)) < 0.5) {
@@ -72,7 +70,7 @@ class UtilityModelTest {
         boolean randomModelIsTooBiased;
 
         KnownUtilityValueModel hiddenModel;
-        List<UtilityModel.TrainingExample> examples;
+        List<TFUtilityModel.TrainingExample> examples;
         long accepted;
         do {
 
@@ -89,19 +87,19 @@ class UtilityModelTest {
         System.out.println("" + accepted + " of " + examples.size() + " training examples were positive");
 
         // The tensorflow model that should be trained
-        UtilityModel model = new UtilityModel(hiddenModel.issuesOptions);
+        TFUtilityModel model = new TFUtilityModel(hiddenModel.issuesOptions);
 
         model.train(examples);
 
         model.printWeights();
 
-        List<UtilityModel.TrainingExample> testSet = hiddenModel.generateExamples(1000);
+        List<TFUtilityModel.TrainingExample> testSet = hiddenModel.generateExamples(1000);
 
         List<Float> differences = new ArrayList<>();
 
         int close = 0;
 
-        for(UtilityModel.TrainingExample example: testSet) {
+        for(TFUtilityModel.TrainingExample example: testSet) {
             float prediction = model.predict(example.options);
 
             differences.add(Math.abs(prediction - example.actualValue));
@@ -177,7 +175,7 @@ class UtilityModelTest {
             return value;
         }
 
-        public UtilityModel.TrainingExample randomExample() {
+        public TFUtilityModel.TrainingExample randomExample() {
             Random r = new Random();
 
             int[] options = new int[issues.size()];
@@ -186,7 +184,7 @@ class UtilityModelTest {
                 options[i] = r.nextInt(issues.get(i).length);
             }
 
-            UtilityModel.TrainingExample example = new UtilityModel.TrainingExample(options, calcValue(options) >= threshold);
+            TFUtilityModel.TrainingExample example = new TFUtilityModel.TrainingExample(options, calcValue(options) >= threshold);
 
             example.actualValue = calcValue(options);
 
@@ -194,8 +192,8 @@ class UtilityModelTest {
         }
 
 
-        public List<UtilityModel.TrainingExample> generateExamples(int n) {
-            List<UtilityModel.TrainingExample> list = new ArrayList<>();
+        public List<TFUtilityModel.TrainingExample> generateExamples(int n) {
+            List<TFUtilityModel.TrainingExample> list = new ArrayList<>();
 
             for (int i = 0; i < n; i++) {
                 list.add(randomExample());

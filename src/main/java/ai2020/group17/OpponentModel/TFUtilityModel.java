@@ -15,10 +15,12 @@ import org.tensorflow.types.TFloat32;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 
 import static org.tensorflow.op.core.Placeholder.shape;
 
-public class UtilityModel {
+public class TFUtilityModel {
 
     // Training tuple
     public static class TrainingExample {
@@ -44,11 +46,18 @@ public class UtilityModel {
             return accepted == example.accepted &&
                     Arrays.equals(options, example.options);
         }
+
+		@Override
+		public String toString() {
+			return "TrainingExample [options=" + Arrays.toString(options) + ", accepted=" + accepted + "]";
+		}
+        
+        
     }
 
     Graph graph;
     Ops tf;
-    Utility utility;
+    TFUtility tfUtility;
 
     List<ApplyGradientDescent<TFloat32>> gradientDescents;
     Placeholder<TFloat32> actuallyAccepted;
@@ -56,20 +65,20 @@ public class UtilityModel {
 
     private final Session session;
 
-    public UtilityModel(int[] issuesOptions) {
+    public TFUtilityModel(int[] issuesOptions) {
         graph = new Graph();
 
         tf = Ops.create(graph);
 
         // This creates all the necessary tensorflow Placeholder's and Variable's
         // They can be referenced by e.g. utility.issues[0].issueOneHotVectorPlaceholder for the first issues onehotvector
-        utility = new Utility(tf, issuesOptions);
+        tfUtility = new TFUtility(tf, issuesOptions);
 
 
-        List<Assign<TFloat32>> assigns = utility.initIssueWeights(tf, 0.5f);
-        assigns.add(utility.initWeights(tf, 1.0f));
+        List<Assign<TFloat32>> assigns = tfUtility.initIssueWeights(tf, 0.5f);
+        assigns.add(tfUtility.initWeights(tf, 1.0f));
 
-        predicted = utility.predictUtility(tf);
+        predicted = tfUtility.predictUtility(tf);
 
         // Actually accepted placeholder
         actuallyAccepted = tf.placeholder(TFloat32.DTYPE, shape(Shape.scalar()));
@@ -81,7 +90,7 @@ public class UtilityModel {
 
         Constant<TFloat32> alpha = tf.constant(0.01f);
 
-        gradientDescents = utility.applyGradientDescent(tf, loss, alpha);
+        gradientDescents = tfUtility.applyGradientDescent(tf, loss, alpha);
 
         session = new Session(graph);
 
@@ -109,7 +118,7 @@ public class UtilityModel {
                 }
 
                 // Feed in training data
-                utility.feed(runner, example.options);
+                tfUtility.feed(runner, example.options);
                 runner.feed(this.actuallyAccepted, TFloat32.scalarOf(actual));
 
                 // Run with training targets
@@ -122,7 +131,7 @@ public class UtilityModel {
 
         Session.Runner runner = session.runner();
 
-        utility.feed(runner, options);
+        tfUtility.feed(runner, options);
 
         float predictedAcceptedValue = runner.fetch(this.predicted)
                 .run().get(0).rawData().asFloats().getFloat(0);
@@ -132,7 +141,7 @@ public class UtilityModel {
 
     public void printWeights() {
 
-        for(Issue issue: utility.issues) {
+        for(TFIssue issue: tfUtility.issues) {
             Tensor<?> computedIssueWeights = session.runner().fetch(issue.issueWeights).run().get(0);
 
             System.out.println("Weight issue" + issue.issueIdx + " is " + computedIssueWeights);
@@ -144,7 +153,7 @@ public class UtilityModel {
             }
         }
 
-        Tensor<?> computedWeights = session.runner().fetch(utility.weights).run().get(0);
+        Tensor<?> computedWeights = session.runner().fetch(tfUtility.weights).run().get(0);
         System.out.println("Weight is " + computedWeights);
 
         FloatDataBuffer floats = computedWeights.rawData().asFloats();
@@ -154,9 +163,48 @@ public class UtilityModel {
         }
 
     }
+    
+    public int[] findMaximumOffer() {
+
+    	int[] offer = new int[tfUtility.issues.length];
+    	
+        for(int i = 0; i < this.tfUtility.issues.length; i++) {
+            Tensor<?> computedIssueWeights = session.runner().fetch(this.tfUtility.issues[i].issueWeights).run().get(0);
+
+            FloatDataBuffer floats = computedIssueWeights.rawData().asFloats();
+            
+            int maxIndex = IntStream.range(0,  (int) floats.size()).reduce((max, next) -> floats.getFloat(next) > floats.getFloat(max) ? next : max).getAsInt();
+            
+            offer[i] = maxIndex;
+        }
+
+        return offer;
+    }
+
+    // Equivalent to the LinearAdditive UtilitySpace getWeights()
+    public double[] computeWeights() {
+        Operand<TFloat32> normalizedWeights = TFUtility.normalizedWeights(this.tf, this.tfUtility.weights);
+
+        Tensor<?> computedWeights = session.runner().fetch(normalizedWeights).run().get(0);
+
+        FloatDataBuffer floats = computedWeights.rawData().asFloats();
+
+        return LongStream.range(0, floats.size()).mapToDouble(floats::getFloat).toArray();
+    }
+
+    // Equivalent to the LinearAdditive UtilitySpace getUtilities()
+    public double[] computeIssueWeights(int issueIndex) {
+        Operand<TFloat32> weightsClipped = TFIssue.weightsClipped(tf, tfUtility.issues[issueIndex].issueWeights);
+
+        Tensor<?> computedWeights = session.runner().fetch(weightsClipped).run().get(0);
+
+        FloatDataBuffer floats = computedWeights.rawData().asFloats();
+
+        return LongStream.range(0, floats.size()).mapToDouble(floats::getFloat).toArray();
+    }
 
     public static void main(String[] args) {
-        UtilityModel model = new UtilityModel(new int[]{2, 3, 5});
+        TFUtilityModel model = new TFUtilityModel(new int[]{2, 3, 5});
 
         model.train(List.of(
                 new TrainingExample(new int[]{0, 2, 0}, true),
