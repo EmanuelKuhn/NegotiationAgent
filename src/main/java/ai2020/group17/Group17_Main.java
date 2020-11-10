@@ -70,6 +70,19 @@ public class Group17_Main extends DefaultParty {
 		super(reporter); // for debugging
 	}
 
+	// Returns a list of my utility space and all opponent model utility spaces
+	private List<LinearAdditive> getUtilitySpaces() {
+		List<LinearAdditive> result = new ArrayList<>();
+
+		result.add((LinearAdditive) profileint);
+
+		for (TFLinearAdditiveOpponentModel opponentModel: opponentModelMap.values()) {
+			result.add(opponentModel);
+		}
+
+		return result;
+	}
+
 	@Override
 	public void notifyChange(Inform info) {
 		try {
