@@ -2,14 +2,11 @@ package ai2020.group17;
 
 import java.io.IOException;
 import java.math.BigInteger;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
+import ai2020.group17.OpponentModel.TFLinearAdditiveOpponentModel;
 import geniusweb.actions.Accept;
 import geniusweb.actions.Action;
 import geniusweb.actions.Offer;
@@ -65,6 +62,7 @@ public class Group17_Main extends DefaultParty {
 	private Votes lastvotes;
 	private String protocol;
 
+	private Map<PartyId, TFLinearAdditiveOpponentModel> opponentModelMap = new HashMap<>();
 	public Group17_Main() {
 	}
 
@@ -88,6 +86,19 @@ public class Group17_Main extends DefaultParty {
 				Action otheract = ((ActionDone) info).getAction();
 				if (otheract instanceof Offer) {
 					lastReceivedBid = ((Offer) otheract).getBid();
+				}
+
+				// Train the opponent models when a new Offer or Votes arrive.
+				if (otheract instanceof Offer || otheract instanceof Votes) {
+					PartyId actor = otheract.getActor();
+
+					// initialize opponent model if not yet created
+					opponentModelMap.putIfAbsent(actor, new TFLinearAdditiveOpponentModel(this.profileint.getProfile().getDomain()));
+
+					// Update opponent with action
+					TFLinearAdditiveOpponentModel opponentModel = opponentModelMap.get(actor);
+					TFLinearAdditiveOpponentModel updatedOpponentModel = opponentModel.with(otheract, progress);
+					opponentModelMap.put(actor, updatedOpponentModel);
 				}
 			} else if (info instanceof YourTurn) {
 				makeOffer();
