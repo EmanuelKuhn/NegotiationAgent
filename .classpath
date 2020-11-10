@@ -23,6 +23,5 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/murta/OneDrive/Bureaublad/AIT/Assignment 2/apache-tomcat-8.5.59/webapps/partiesserver-1.5.6/partiesrepo/randomparty-1.5.6.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
