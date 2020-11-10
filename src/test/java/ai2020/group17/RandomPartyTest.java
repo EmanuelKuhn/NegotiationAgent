@@ -64,6 +64,7 @@ public class RandomPartyTest {
 	private static final PartyId PARTY1 = new PartyId("party1");
 	private static final String SAOP = "SAOP";
 	private static final PartyId otherparty = new PartyId("other");
+	private static final PartyId otherparty2 = new PartyId("other2");
 	private static final String PROFILE = "src/test/resources/testprofile.json";
 	private final static ObjectMapper jackson = new ObjectMapper();
 
@@ -225,7 +226,9 @@ public class RandomPartyTest {
 
 		Bid bid = findGoodBid();
 		Offer offer = new Offer(PARTY1, bid);
-		party.notifyChange(new Voting(Arrays.asList(offer),
+		Offer offer2 = new Offer(otherparty, bid);
+		Offer offer3 = new Offer(otherparty2, bid);
+		party.notifyChange(new Voting(Arrays.asList(offer, offer2, offer3),
 				Collections.singletonMap(PARTY1, 1)));
 		assertEquals(1, connection.getActions().size());
 		Action action = connection.getActions().get(0);

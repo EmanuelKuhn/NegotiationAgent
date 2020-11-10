@@ -1,10 +1,12 @@
 package ai2020.group17;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import ai2020.group17.OpponentModel.TFLinearAdditiveOpponentModel;
 import geniusweb.actions.Accept;
@@ -13,6 +15,7 @@ import geniusweb.actions.Offer;
 import geniusweb.actions.PartyId;
 import geniusweb.actions.Vote;
 import geniusweb.actions.Votes;
+import geniusweb.bidspace.AllBidsList;
 import geniusweb.bidspace.AllPartialBidsList;
 import geniusweb.inform.ActionDone;
 import geniusweb.inform.Finished;
@@ -22,15 +25,23 @@ import geniusweb.inform.Settings;
 import geniusweb.inform.Voting;
 import geniusweb.inform.YourTurn;
 import geniusweb.issuevalue.Bid;
+import geniusweb.issuevalue.Domain;
 import geniusweb.party.Capabilities;
 import geniusweb.party.DefaultParty;
+import geniusweb.profile.FullOrdering;
 import geniusweb.profile.PartialOrdering;
 import geniusweb.profile.Profile;
+import geniusweb.profile.utilityspace.LinearAdditive;
+import geniusweb.profile.utilityspace.LinearAdditiveUtilitySpace;
 import geniusweb.profile.utilityspace.UtilitySpace;
 import geniusweb.profileconnection.ProfileConnectionFactory;
 import geniusweb.profileconnection.ProfileInterface;
 import geniusweb.progress.Progress;
 import geniusweb.progress.ProgressRounds;
+import geniusweb.bidspace.BidsWithUtility;
+import geniusweb.bidspace.Interval;
+import geniusweb.bidspace.pareto.ParetoLinearAdditive;
+import tudelft.utilities.immutablelist.ImmutableList;
 import tudelft.utilities.logging.Reporter;
 
 /**
@@ -61,6 +72,20 @@ public class Group17_Main extends DefaultParty {
 	private Settings settings;
 	private Votes lastvotes;
 	private String protocol;
+	private HashMap<PartyId, HashMap<Bid, Double>> otherBids = new HashMap<>();
+	private LinearAdditiveUtilitySpace space;
+	private ParetoLinearAdditive pareto;
+	private BidsWithUtility bidsWithUtility;
+	private Interval range; 
+	private BigDecimal maxRange;
+	private BigDecimal minRange;
+	private double threshold = 0.9;
+	private int firstBestBids = 5;
+	private ImmutableList<Bid> firstBids;
+	private List<Element> elements = new ArrayList<>();
+	private AllBidsList allBids;
+	
+	
 
 	private Map<PartyId, TFLinearAdditiveOpponentModel> opponentModelMap = new HashMap<>();
 	public Group17_Main() {
@@ -94,9 +119,39 @@ public class Group17_Main extends DefaultParty {
 				this.progress = settings.getProgress();
 				this.settings = settings;
 				this.protocol = settings.getProtocol().getURI().getPath();
+				
+				this.space = (LinearAdditiveUtilitySpace) this.profileint.getProfile();
+				this.bidsWithUtility = new BidsWithUtility(this.space);
+				
+				this.range = bidsWithUtility.getRange();
+				this.maxRange = range.getMax();
+				this.minRange = range.getMin();
+				
+
+				
+				allBids = new AllBidsList(this.profileint.getProfile().getDomain());
+				
+				UtilitySpace utility = (UtilitySpace) this.profileint.getProfile();
+				
+				firstBids = bidsWithUtility.getBids(new Interval(maxRange.multiply(BigDecimal.valueOf(threshold)), maxRange));
+				
+				while (firstBids.size().compareTo(BigInteger.valueOf(firstBestBids)) == -1 && BigInteger.valueOf(firstBestBids).compareTo(allBids.size()) <= 0) {
+					threshold -= 0.1;
+					firstBids = bidsWithUtility.getBids(new Interval(maxRange.multiply(BigDecimal.valueOf(threshold)), maxRange));
+				}
+				
+				int index = 0;
+				for (Bid b : firstBids) {
+					elements.add(new Element(index, utility.getUtility(b)));
+					index++;
+				}
+				
+				Collections.sort(elements);
+				Collections.reverse(elements);
 
 			} else if (info instanceof ActionDone) {
 				Action otheract = ((ActionDone) info).getAction();
+				
 				if (otheract instanceof Offer) {
 					lastReceivedBid = ((Offer) otheract).getBid();
 				}
@@ -118,6 +173,22 @@ public class Group17_Main extends DefaultParty {
 			} else if (info instanceof Finished) {
 				getReporter().log(Level.INFO, "Final ourcome:" + info);
 			} else if (info instanceof Voting) {
+				
+				Set<Offer> offers = ((Voting) info).getBids().stream().filter(offer -> !offer.getActor().equals(me)).collect(Collectors.toSet());
+				
+				
+				for (Offer offer : offers) {
+					if (!otherBids.containsKey(offer.getActor())) {
+						otherBids.put(offer.getActor(), new HashMap<>());
+					}
+					
+					otherBids.get(offer.getActor()).put(offer.getBid(), ((UtilitySpace) profileint.getProfile()).getUtility(offer.getBid()).doubleValue());
+				}
+				
+				for (PartyId id : otherBids.keySet()) {
+					System.out.println(otherBids.get(id).toString() + id);
+				}
+				
 				lastvotes = vote((Voting) info);
 				getConnection().send(lastvotes);
 			} else if (info instanceof OptIn) {
@@ -160,6 +231,7 @@ public class Group17_Main extends DefaultParty {
 			break;
 		case "MOPAC":
 			if (!(info instanceof OptIn))
+				// 
 				return;
 			break;
 		default:
@@ -177,20 +249,22 @@ public class Group17_Main extends DefaultParty {
 	 */
 	private void makeOffer() throws IOException {
 		Action action;
-		if ((protocol.equals("SAOP") || protocol.equals("SHAOP"))
-				&& isGood(lastReceivedBid)) {
-			action = new Accept(me, lastReceivedBid);
+		Profile currentProfile = profileint.getProfile();
+		UtilitySpace utility = (UtilitySpace) currentProfile;
+		
+		int round = ((ProgressRounds) progress).getCurrentRound();
+		Bid bid = null;
+		if (firstBids.size().compareTo(BigInteger.valueOf(round)) >= 0) {
+
+			bid = firstBids.get(BigInteger.valueOf(elements.get(round).index));
+			
 		} else {
-			// for demo. Obviously full bids have higher util in general
-			AllPartialBidsList bidspace = new AllPartialBidsList(
-					profileint.getProfile().getDomain());
-			Bid bid = null;
-			for (int attempt = 0; attempt < 20 && !isGood(bid); attempt++) {
-				long i = random.nextInt(bidspace.size().intValue());
-				bid = bidspace.get(BigInteger.valueOf(i));
-			}
-			action = new Offer(me, bid);
+			// TODO implement with opponentmodel
+			bid = firstBids.get(BigInteger.valueOf(elements.get(round).index));
 		}
+
+		action = new Offer(me, bid);
+		
 		getConnection().send(action);
 
 	}
@@ -199,7 +273,7 @@ public class Group17_Main extends DefaultParty {
 	 * @param bid the bid to check
 	 * @return true iff bid is good for us.
 	 */
-	private boolean isGood(Bid bid) {
+	private boolean isGood(Bid bid, double t) {
 		if (bid == null)
 			return false;
 		Profile profile;
@@ -208,8 +282,10 @@ public class Group17_Main extends DefaultParty {
 		} catch (IOException e) {
 			throw new IllegalStateException(e);
 		}
+		
 		if (profile instanceof UtilitySpace)
-			return ((UtilitySpace) profile).getUtility(bid).doubleValue() > 0.6;
+			return ((UtilitySpace) profile).getUtility(bid).doubleValue() >= t;
+		
 		if (profile instanceof PartialOrdering) {
 			return ((PartialOrdering) profile).isPreferredOrEqual(bid,
 					profile.getReservationBid());
@@ -230,10 +306,32 @@ public class Group17_Main extends DefaultParty {
 				: Integer.MAX_VALUE;
 
 		Set<Vote> votes = voting.getBids().stream().distinct()
-				.filter(offer -> isGood(offer.getBid()))
+				.filter(offer -> isGood(offer.getBid(), 0.6))
 				.map(offer -> new Vote(me, offer.getBid(), minpower, maxpower))
 				.collect(Collectors.toSet());
 		return new Votes(me, votes);
+	}
+
+}
+
+class Element implements Comparable<Element> {
+
+    int index;
+    BigDecimal value;
+
+    Element(int index, BigDecimal value){
+        this.index = index;
+        this.value = value;
+    }
+
+	@Override
+	public int compareTo(Element e) {
+		
+		return this.value.compareTo(e.value);
+	}
+	
+	public BigDecimal getBigDecimal() {
+		return this.value;
 	}
 
 }
