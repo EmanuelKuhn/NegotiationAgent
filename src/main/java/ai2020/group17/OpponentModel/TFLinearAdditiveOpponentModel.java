@@ -12,6 +12,7 @@ import geniusweb.profile.utilityspace.ValueSetUtilities;
 import geniusweb.progress.Progress;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +25,7 @@ public class TFLinearAdditiveOpponentModel implements OpponentModel, LinearAddit
 
 	private TFUtilityModel tfModel;
 
-	private List<TFUtilityModel.TrainingExample> trainingData;
+	private List<TFUtilityModel.TrainingExample> trainingData = new ArrayList<>();
 
 	public TFLinearAdditiveOpponentModel() {
 
