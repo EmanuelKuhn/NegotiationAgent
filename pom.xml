@@ -47,6 +47,11 @@
 			<version>${geniusweb.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>geniusweb</groupId>
+			<artifactId>boa</artifactId>
+			<version>${geniusweb.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>tudelft.utilities</groupId>
 			<artifactId>logging</artifactId>
 			<version>1.0.0</version>
