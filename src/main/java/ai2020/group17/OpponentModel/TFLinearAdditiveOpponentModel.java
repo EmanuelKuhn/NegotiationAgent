@@ -153,6 +153,7 @@ public class TFLinearAdditiveOpponentModel implements OpponentModel, LinearAddit
 		return getWeights().get(issue);
 	}
 
+	// Also supports getting the utility for a partial bid
 	@Override
 	public BigDecimal getUtility(Bid bid) {
 

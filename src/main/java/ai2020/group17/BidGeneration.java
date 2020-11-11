@@ -73,7 +73,13 @@ public class BidGeneration {
 
         double maxRemainingUtility = calculateMaxRemainingUtility(this.myProfile, remainingIssues);
 
-        double currentUtility = this.myProfile.getUtility(currentPartialBid).doubleValue();
+        double currentUtility;
+
+        if (currentPartialBid != null) {
+            currentUtility = this.myProfile.getUtility(currentPartialBid).doubleValue();
+        } else {
+            currentUtility = 0;
+        }
 
         double minUtilityForCurrentIssue = minTotalUtility - currentUtility - maxRemainingUtility;
 
@@ -133,7 +139,7 @@ public class BidGeneration {
         Map<String, ValueSetUtilities> utilities = profile.getUtilities();
         Map<String, BigDecimal> weights = profile.getWeights();
 
-        for(String issue: remainingIssues) {
+        for (String issue : remainingIssues) {
             List<Value> possibleValues = new ArrayList<>();
 
             profile.getDomain().getValues(issue).forEach(possibleValues::add);
