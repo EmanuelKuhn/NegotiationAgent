@@ -2,6 +2,7 @@ package ai2020.group17;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
@@ -12,7 +13,6 @@ import geniusweb.actions.Offer;
 import geniusweb.actions.PartyId;
 import geniusweb.actions.Vote;
 import geniusweb.actions.Votes;
-import geniusweb.bidspace.AllBidsList;
 import geniusweb.inform.ActionDone;
 import geniusweb.inform.Finished;
 import geniusweb.inform.Inform;
@@ -34,8 +34,6 @@ import geniusweb.progress.Progress;
 import geniusweb.progress.ProgressRounds;
 import geniusweb.bidspace.BidsWithUtility;
 import geniusweb.bidspace.Interval;
-import geniusweb.bidspace.pareto.ParetoLinearAdditive;
-import tudelft.utilities.immutablelist.ImmutableList;
 import tudelft.utilities.logging.Reporter;
 
 /**
@@ -68,18 +66,12 @@ public class Group17_Main extends DefaultParty {
 	private Settings settings;
 	private Votes lastvotes;
 	private String protocol;
-	private HashMap<PartyId, HashMap<Bid, Double>> otherBids = new HashMap<>();
 	private LinearAdditiveUtilitySpace space;
-	private ParetoLinearAdditive pareto;
 	private BidsWithUtility bidsWithUtility;
 	private Interval range; 
 	private BigDecimal maxRange;
 	private BigDecimal minRange;
-	private double threshold = 0.9;
 	private int firstBestBids = 5;
-	private ImmutableList<Bid> firstBids;
-	private List<Element> elements = new ArrayList<>();
-	private AllBidsList allBids;
 
 
 	private int minPower;
@@ -93,17 +85,6 @@ public class Group17_Main extends DefaultParty {
 
 	public Group17_Main(Reporter reporter) {
 		super(reporter); // for debugging
-	}
-
-	// Returns a list of my utility space and all opponent model utility spaces
-	private List<LinearAdditive> getUtilitySpaces() {
-		List<LinearAdditive> result = new ArrayList<>();
-
-		result.add((LinearAdditive) profileint);
-
-		result.addAll(opponentModelMap.values());
-
-		return result;
 	}
 
 	@Override
@@ -136,26 +117,6 @@ public class Group17_Main extends DefaultParty {
 				System.out.println("maxPower: " + maxPower);
 
 
-//				allBids = new AllBidsList(this.profileint.getProfile().getDomain());
-				
-//				UtilitySpace utility = (UtilitySpace) this.profileint.getProfile();
-				
-//				firstBids = bidsWithUtility.getBids(new Interval(maxRange.multiply(BigDecimal.valueOf(threshold)), maxRange));
-				
-//				while (firstBids.size().compareTo(BigInteger.valueOf(firstBestBids)) == -1 && BigInteger.valueOf(firstBestBids).compareTo(allBids.size()) <= 0) {
-//					threshold -= 0.1;
-//					firstBids = bidsWithUtility.getBids(new Interval(maxRange.multiply(BigDecimal.valueOf(threshold)), maxRange));
-//				}
-				
-//				int index = 0;
-//				for (Bid b : firstBids) {
-//					elements.add(new Element(index, utility.getUtility(b)));
-//					index++;
-//				}
-				
-//				Collections.sort(elements);
-//				Collections.reverse(elements);
-
 			} else if (info instanceof ActionDone) {
 				Action otheract = ((ActionDone) info).getAction();
 				
@@ -182,21 +143,6 @@ public class Group17_Main extends DefaultParty {
 			} else if (info instanceof Voting) {
 
 				this.powers = ((Voting) info).getPowers();
-
-				Set<Offer> offers = ((Voting) info).getBids().stream().filter(offer -> !offer.getActor().equals(me)).collect(Collectors.toSet());
-				
-				
-				for (Offer offer : offers) {
-					if (!otherBids.containsKey(offer.getActor())) {
-						otherBids.put(offer.getActor(), new HashMap<>());
-					}
-					
-					otherBids.get(offer.getActor()).put(offer.getBid(), ((UtilitySpace) profileint.getProfile()).getUtility(offer.getBid()).doubleValue());
-				}
-				
-				for (PartyId id : otherBids.keySet()) {
-					System.out.println(otherBids.get(id).toString() + id);
-				}
 				
 				lastvotes = vote((Voting) info);
 				getConnection().send(lastvotes);
@@ -219,8 +165,7 @@ public class Group17_Main extends DefaultParty {
 
 	@Override
 	public String getDescription() {
-		return "places random bids until it can accept an offer with utility >0.6. "
-				+ "Parameters minPower and maxPower can be used to control voting behaviour.";
+		return "Agent that runs in MOPaC";
 	}
 
 	/**
@@ -265,21 +210,23 @@ public class Group17_Main extends DefaultParty {
 		} catch (IOException e) {
 			throw new IllegalStateException(e);
 		}
-
-		UtilitySpace utility = (UtilitySpace) profile;
 		
 		int round = ((ProgressRounds) progress).getCurrentRound();
 		Bid bid = null;
 
 		if (round <= firstBestBids) {
 
-//			bid = firstBids.get(BigInteger.valueOf(elements.get(round).index));
 
-			bid = this.bidsWithUtility.getBids(new Interval(maxRange.multiply(BigDecimal.valueOf(0.9)), maxRange)).get(round);
+			Interval firstInterval = new Interval(maxRange.multiply(BigDecimal.valueOf(0.9)), maxRange);
+			
+			if (this.bidsWithUtility.getBids(firstInterval).size().compareTo(BigInteger.valueOf(round)) >= 0) {
+				bid = this.bidsWithUtility.getBids(firstInterval).get(round);
+			} else {
+				bid = this.bidsWithUtility.getExtremeBid(true);
+			}
+			
 
 		} else {
-			// TODO implement with opponentmodel
-//			bid = firstBids.get(BigInteger.valueOf(elements.get(round).index));
 
 			System.out.println("USING OPPONENT MODEL");
 
@@ -351,28 +298,6 @@ public class Group17_Main extends DefaultParty {
 				.map(offer -> new Vote(me, offer.getBid(), minPower, maxPower))
 				.collect(Collectors.toSet());
 		return new Votes(me, votes);
-	}
-
-}
-
-class Element implements Comparable<Element> {
-
-    int index;
-    BigDecimal value;
-
-    Element(int index, BigDecimal value){
-        this.index = index;
-        this.value = value;
-    }
-
-	@Override
-	public int compareTo(Element e) {
-		
-		return this.value.compareTo(e.value);
-	}
-	
-	public BigDecimal getBigDecimal() {
-		return this.value;
 	}
 
 }
