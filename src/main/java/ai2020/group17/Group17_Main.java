@@ -283,12 +283,7 @@ public class Group17_Main extends DefaultParty {
 
 			System.out.println("USING OPPONENT MODEL");
 
-			ProgressRounds progressRounds = ((ProgressRounds) progress);
-
-			double progressDouble = (double) progressRounds.getCurrentRound() / (double) progressRounds.getTotalRounds();
-			double roundThreshold = progressDouble * END_THRESHOLD + (1 - progressDouble) * START_THRESHOLD;
-
-			assert roundThreshold > 0 && roundThreshold < 1;
+			double roundThreshold = computeRoundThreshold();
 
 			System.out.println("before BidGeneration bidGeneration");
 
@@ -306,6 +301,15 @@ public class Group17_Main extends DefaultParty {
 		
 		getConnection().send(action);
 
+	}
+
+	private double computeRoundThreshold() {
+		ProgressRounds progressRounds = ((ProgressRounds) progress);
+
+		double progressDouble = (double) progressRounds.getCurrentRound() / (double) progressRounds.getTotalRounds();
+		double roundThreshold = progressDouble * END_THRESHOLD + (1 - progressDouble) * START_THRESHOLD;
+
+		return roundThreshold;
 	}
 
 	/**
@@ -339,10 +343,7 @@ public class Group17_Main extends DefaultParty {
 	 */
 	private Votes vote(Voting voting) throws IOException {
 
-		ProgressRounds progressRounds = ((ProgressRounds) progress);
-
-		double progressDouble = (double) progressRounds.getCurrentRound() / (double) progressRounds.getTotalRounds();
-		double roundThreshold = progressDouble * END_THRESHOLD + (1 - progressDouble) * START_THRESHOLD;
+		double roundThreshold = computeRoundThreshold();
 
 
 		Set<Vote> votes = voting.getBids().stream().distinct()
