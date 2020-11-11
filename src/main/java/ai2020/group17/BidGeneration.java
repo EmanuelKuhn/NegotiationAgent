@@ -31,15 +31,18 @@ public class BidGeneration {
 
         List<Tuple<PartyId, Double>> partyDistances = new ArrayList<>();
 
+        // List of parties that are close to us
         for(Map.Entry<PartyId, LinearAdditive> opp: opponents.entrySet()) {
             partyDistances.add(new Tuple<>(opp.getKey(), distance(this.myProfile, opp.getValue())));
         }
 
+        // Sort the parties on decreasing distance
         partyDistances.sort(Collections.reverseOrder(Comparator.comparingDouble(Tuple::get2)));
 
-        // List of closest parties that have enough power
+       
         List<PartyId> targetParties = new ArrayList<>();
 
+        // Add parties until a sum of powers is reached, higher than the minPower
         for (int i = 0; i < partyDistances.size() && targetParties.stream().mapToInt(this.powers::get).sum() < minPower; i++) {
             targetParties.add(partyDistances.get(i).get1());
         }
@@ -48,14 +51,14 @@ public class BidGeneration {
 
         Map<String, BigDecimal> issueWeights = myProfile.getWeights();
 
-        // Start by drawing for low weighted issues
-        // TODO: make probabilistic?
+        // Create an issue draw order where we start with the lowest weight issues
         List<String> issueDrawOrder = this.myProfile.getDomain().getIssues().stream()
                 .sorted(Comparator.comparing(issueWeights::get))
                 .collect(Collectors.toList());
 
         Bid bid = null;
 
+        // Create partial bids starting with the issues that have the lowest weight
         for (String issue: issueDrawOrder) {
             bid = generatePartialBid(issue, bid, minTotalUtility, targetParties.stream().collect(Collectors.toMap(party -> party, opponents::get)));
         }
@@ -63,14 +66,17 @@ public class BidGeneration {
         return bid;
     }
 
+    // minTotalUtility is the threshold that the bid should have
     private Bid generatePartialBid(String issue, Bid currentPartialBid, double minTotalUtility, Map<PartyId, LinearAdditive> parties) {
 
+    	// Compute the remaining issues
         Set<String> remainingIssues = myProfile.getDomain().getIssues();
         if (currentPartialBid != null) {
             remainingIssues.removeAll(currentPartialBid.getIssues());
         }
         remainingIssues.remove(issue);
 
+        // Calculate the maximum utility available after a bid has been generated for the current issue
         double maxRemainingUtility = calculateMaxRemainingUtility(this.myProfile, remainingIssues);
 
         double currentUtility;
@@ -81,8 +87,10 @@ public class BidGeneration {
             currentUtility = 0;
         }
 
+        // calculate minimum utility required for the current issue to reach the threshold
         double minUtilityForCurrentIssue = minTotalUtility - currentUtility - maxRemainingUtility;
 
+        // All possible values for the current issue that would get us over the threshold
         List<DiscreteValue> consideredValues = new ArrayList<>();
 
         for (Value value: this.myProfile.getDomain().getValues(issue)) {
@@ -93,13 +101,13 @@ public class BidGeneration {
             }
         }
 
-        Bid currentIssuepartialBid = new Bid(issue, drawIssueValue(issue, consideredValues, parties));
+        Bid currentIssuePartialBid = new Bid(issue, drawIssueValue(issue, consideredValues, parties));
 
         if (currentPartialBid == null) {
-            return currentIssuepartialBid;
+            return currentIssuePartialBid;
         }
 
-        return currentPartialBid.merge(currentIssuepartialBid);
+        return currentPartialBid.merge(currentIssuePartialBid);
     }
 
     // Draw an issue value proportional to the summed utility of the given parties
