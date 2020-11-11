@@ -2,21 +2,17 @@ package ai2020.group17;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import ai2020.group17.OpponentModel.TFLinearAdditiveOpponentModel;
-import geniusweb.actions.Accept;
 import geniusweb.actions.Action;
 import geniusweb.actions.Offer;
 import geniusweb.actions.PartyId;
 import geniusweb.actions.Vote;
 import geniusweb.actions.Votes;
 import geniusweb.bidspace.AllBidsList;
-import geniusweb.bidspace.AllPartialBidsList;
 import geniusweb.inform.ActionDone;
 import geniusweb.inform.Finished;
 import geniusweb.inform.Inform;
@@ -25,10 +21,8 @@ import geniusweb.inform.Settings;
 import geniusweb.inform.Voting;
 import geniusweb.inform.YourTurn;
 import geniusweb.issuevalue.Bid;
-import geniusweb.issuevalue.Domain;
 import geniusweb.party.Capabilities;
 import geniusweb.party.DefaultParty;
-import geniusweb.profile.FullOrdering;
 import geniusweb.profile.PartialOrdering;
 import geniusweb.profile.Profile;
 import geniusweb.profile.utilityspace.LinearAdditive;
@@ -84,10 +78,14 @@ public class Group17_Main extends DefaultParty {
 	private ImmutableList<Bid> firstBids;
 	private List<Element> elements = new ArrayList<>();
 	private AllBidsList allBids;
-	
-	
 
-	private Map<PartyId, TFLinearAdditiveOpponentModel> opponentModelMap = new HashMap<>();
+
+	private int minPower;
+	private int maxPower;
+
+	private Map<PartyId, LinearAdditive> opponentModelMap = new HashMap<>();
+	private Map<PartyId, Integer> powers;
+
 	public Group17_Main() {
 	}
 
@@ -101,9 +99,7 @@ public class Group17_Main extends DefaultParty {
 
 		result.add((LinearAdditive) profileint);
 
-		for (TFLinearAdditiveOpponentModel opponentModel: opponentModelMap.values()) {
-			result.add(opponentModel);
-		}
+		result.addAll(opponentModelMap.values());
 
 		return result;
 	}
@@ -126,28 +122,37 @@ public class Group17_Main extends DefaultParty {
 				this.range = bidsWithUtility.getRange();
 				this.maxRange = range.getMax();
 				this.minRange = range.getMin();
-				
 
+				Object val = settings.getParameters().get("minPower");
+				this.minPower = (val instanceof Integer) ? (Integer) val : 76;
+
+				val = settings.getParameters().get("maxPower");
+				maxPower = (val instanceof Integer) ? (Integer) val
+						: Integer.MAX_VALUE;
+
+				System.out.println("minPower: " + minPower);
+				System.out.println("maxPower: " + maxPower);
+
+
+//				allBids = new AllBidsList(this.profileint.getProfile().getDomain());
 				
-				allBids = new AllBidsList(this.profileint.getProfile().getDomain());
+//				UtilitySpace utility = (UtilitySpace) this.profileint.getProfile();
 				
-				UtilitySpace utility = (UtilitySpace) this.profileint.getProfile();
+//				firstBids = bidsWithUtility.getBids(new Interval(maxRange.multiply(BigDecimal.valueOf(threshold)), maxRange));
 				
-				firstBids = bidsWithUtility.getBids(new Interval(maxRange.multiply(BigDecimal.valueOf(threshold)), maxRange));
+//				while (firstBids.size().compareTo(BigInteger.valueOf(firstBestBids)) == -1 && BigInteger.valueOf(firstBestBids).compareTo(allBids.size()) <= 0) {
+//					threshold -= 0.1;
+//					firstBids = bidsWithUtility.getBids(new Interval(maxRange.multiply(BigDecimal.valueOf(threshold)), maxRange));
+//				}
 				
-				while (firstBids.size().compareTo(BigInteger.valueOf(firstBestBids)) == -1 && BigInteger.valueOf(firstBestBids).compareTo(allBids.size()) <= 0) {
-					threshold -= 0.1;
-					firstBids = bidsWithUtility.getBids(new Interval(maxRange.multiply(BigDecimal.valueOf(threshold)), maxRange));
-				}
+//				int index = 0;
+//				for (Bid b : firstBids) {
+//					elements.add(new Element(index, utility.getUtility(b)));
+//					index++;
+//				}
 				
-				int index = 0;
-				for (Bid b : firstBids) {
-					elements.add(new Element(index, utility.getUtility(b)));
-					index++;
-				}
-				
-				Collections.sort(elements);
-				Collections.reverse(elements);
+//				Collections.sort(elements);
+//				Collections.reverse(elements);
 
 			} else if (info instanceof ActionDone) {
 				Action otheract = ((ActionDone) info).getAction();
@@ -164,7 +169,7 @@ public class Group17_Main extends DefaultParty {
 					opponentModelMap.putIfAbsent(actor, new TFLinearAdditiveOpponentModel(this.profileint.getProfile().getDomain()));
 
 					// Update opponent with action
-					TFLinearAdditiveOpponentModel opponentModel = opponentModelMap.get(actor);
+					TFLinearAdditiveOpponentModel opponentModel = (TFLinearAdditiveOpponentModel) opponentModelMap.get(actor);
 					TFLinearAdditiveOpponentModel updatedOpponentModel = opponentModel.with(otheract, progress);
 					opponentModelMap.put(actor, updatedOpponentModel);
 				}
@@ -173,7 +178,9 @@ public class Group17_Main extends DefaultParty {
 			} else if (info instanceof Finished) {
 				getReporter().log(Level.INFO, "Final ourcome:" + info);
 			} else if (info instanceof Voting) {
-				
+
+				this.powers = ((Voting) info).getPowers();
+
 				Set<Offer> offers = ((Voting) info).getBids().stream().filter(offer -> !offer.getActor().equals(me)).collect(Collectors.toSet());
 				
 				
@@ -249,18 +256,48 @@ public class Group17_Main extends DefaultParty {
 	 */
 	private void makeOffer() throws IOException {
 		Action action;
-		Profile currentProfile = profileint.getProfile();
-		UtilitySpace utility = (UtilitySpace) currentProfile;
+		LinearAdditive profile;
+
+		try {
+			profile = (LinearAdditive) profileint.getProfile();
+		} catch (IOException e) {
+			throw new IllegalStateException(e);
+		}
+
+		UtilitySpace utility = (UtilitySpace) profile;
 		
 		int round = ((ProgressRounds) progress).getCurrentRound();
 		Bid bid = null;
-		if (firstBids.size().compareTo(BigInteger.valueOf(round)) >= 0) {
 
-			bid = firstBids.get(BigInteger.valueOf(elements.get(round).index));
-			
+		if (round <= firstBestBids) {
+
+//			bid = firstBids.get(BigInteger.valueOf(elements.get(round).index));
+
+			bid = this.bidsWithUtility.getBids(new Interval(maxRange.multiply(BigDecimal.valueOf(0.9)), maxRange)).get(round);
+
 		} else {
 			// TODO implement with opponentmodel
-			bid = firstBids.get(BigInteger.valueOf(elements.get(round).index));
+//			bid = firstBids.get(BigInteger.valueOf(elements.get(round).index));
+
+			System.out.println("USING OPPONENT MODEL");
+
+			ProgressRounds progressRounds = ((ProgressRounds) progress);
+
+			double progressDouble = (double) progressRounds.getCurrentRound() / (double) progressRounds.getTotalRounds();
+			double roundThreshold = progressDouble * 0.6 + (1 - progressDouble) * 0.9;
+
+			assert roundThreshold > 0 && roundThreshold < 1;
+
+			System.out.println("before BidGeneration bidGeneration");
+
+			BidGeneration bidGeneration = new BidGeneration(profile, powers, minPower);
+
+			System.out.println("CREATED BidGeneration OBJECT");
+
+			bid = bidGeneration.generateBid(opponentModelMap, roundThreshold);
+
+			System.out.println("bid WAS GENERATED WITH OPPONENT MODEL");
+
 		}
 
 		action = new Offer(me, bid);
@@ -299,15 +336,10 @@ public class Group17_Main extends DefaultParty {
 	 * @return our next Votes.
 	 */
 	private Votes vote(Voting voting) throws IOException {
-		Object val = settings.getParameters().get("minPower");
-		Integer minpower = (val instanceof Integer) ? (Integer) val : 2;
-		val = settings.getParameters().get("maxPower");
-		Integer maxpower = (val instanceof Integer) ? (Integer) val
-				: Integer.MAX_VALUE;
 
 		Set<Vote> votes = voting.getBids().stream().distinct()
-				.filter(offer -> isGood(offer.getBid(), 0.6))
-				.map(offer -> new Vote(me, offer.getBid(), minpower, maxpower))
+				.filter(offer -> isGood(offer.getBid(), 0.8))
+				.map(offer -> new Vote(me, offer.getBid(), minPower, maxPower))
 				.collect(Collectors.toSet());
 		return new Votes(me, votes);
 	}

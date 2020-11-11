@@ -8,21 +8,20 @@ from dataclasses import dataclass
 
 from generate_domain import *
 
-DOMAIN_NAME="tweedekamer2017kieskompas"
+DOMAIN_NAME="tweedekamer2017kieskompasshortnames"
 POSSIBLE_VALUES = ["Helemaal mee eens",
                    "Mee eens",
                    "Neutraal",
                    "Niet mee eens",
-                   "Helemaal niet mee eens",
-                   "Geen mening"]   # maybe scratch "Geen mening" as value?
+                   "Helemaal niet mee eens"]   # maybe scratch "Geen mening" as value?
 
 def generate_for_party(party_name, input_folder, output_folder):
     issues = []
 
     with open(f'{input_folder}/{party_name}.csv', newline='') as csvfile:
         reader = csv.reader(csvfile, delimiter=";")
-        for row in reader:
-            issues.append(Issue(row[0], row[1], float(row[2])))
+        for i, row in enumerate(reader):
+            issues.append(Issue(f"stelling{i}", row[1], float(row[2])))
 
     profile = create_profile(party_name, issues)
 
@@ -112,7 +111,6 @@ def compute_value_utils(value: str):
                     "Neutraal": 0.5,
                     "Niet mee eens": 0.3,
                     "Helemaal niet mee eens": 0.1,
-                    "Geen mening": 0.5
                 }
             }
         }
@@ -125,7 +123,6 @@ def compute_value_utils(value: str):
                     "Neutraal": 0.7,
                     "Niet mee eens": 0.4,
                     "Helemaal niet mee eens": 0.1,
-                    "Geen mening": 0.5
                 }
             }
         }
@@ -138,7 +135,6 @@ def compute_value_utils(value: str):
                     "Neutraal": 1.0,
                     "Niet mee eens": 0.5,
                     "Helemaal niet mee eens": 0.1,
-                    "Geen mening": 0.5
                 }
             }
         }
@@ -151,7 +147,6 @@ def compute_value_utils(value: str):
                     "Neutraal": 0.7,
                     "Niet mee eens": 1.0,
                     "Helemaal niet mee eens": 0.8,
-                    "Geen mening": 0.5
                 }
             }
         }
@@ -165,7 +160,6 @@ def compute_value_utils(value: str):
                     "Neutraal": 0.5,
                     "Niet mee eens": 0.8,
                     "Helemaal niet mee eens": 1.0,
-                    "Geen mening": 0.5
                 }
             }
         }
@@ -178,8 +172,7 @@ def compute_value_utils(value: str):
                     "Mee eens": 1.0,
                     "Neutraal": 1.0,
                     "Niet mee eens": 1.0,
-                    "Helemaal niet mee eens": 1.0,
-                    "Geen mening": 1.0
+                    "Helemaal niet mee eens": 1.0
                 }
             }
         }

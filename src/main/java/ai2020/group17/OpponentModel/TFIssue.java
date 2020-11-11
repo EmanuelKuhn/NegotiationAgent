@@ -56,11 +56,11 @@ public class TFIssue {
     }
 
     public Assign<TFloat32> init(Ops tf, float initializationValue) {
-        return init(tf, () -> TFHelper.repeat(initializationValue, nOptions));
+        return init(tf, () -> Helper.repeat(initializationValue, nOptions));
     }
 
     protected static Operand<TFloat32> weightsClipped(Ops tf, Operand<TFloat32> weights) {
-        return TFHelper.clipByValuePreserveGradient(
+        return Helper.clipByValuePreserveGradient(
                 tf,
                 weights,
                 tf.constant(0.0f),

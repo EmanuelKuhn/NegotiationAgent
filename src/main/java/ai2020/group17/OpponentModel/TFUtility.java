@@ -5,7 +5,6 @@ import org.tensorflow.Session;
 import org.tensorflow.ndarray.Shape;
 import org.tensorflow.op.Ops;
 import org.tensorflow.op.core.*;
-import org.tensorflow.op.math.Div;
 import org.tensorflow.op.math.Mul;
 import org.tensorflow.op.train.ApplyGradientDescent;
 import org.tensorflow.types.TFloat32;
@@ -37,7 +36,7 @@ public class TFUtility {
     }
 
     public Assign<TFloat32> initWeights(Ops tf, float initializationValue) {
-        return initWeights(tf, () -> TFHelper.repeat(initializationValue, issues.length));
+        return initWeights(tf, () -> Helper.repeat(initializationValue, issues.length));
     }
 
     public List<Assign<TFloat32>> initIssueWeights(Ops tf, float initializationValue) {
