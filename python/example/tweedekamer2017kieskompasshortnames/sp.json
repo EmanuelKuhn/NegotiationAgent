@@ -1,0 +1,644 @@
+{
+ "LinearAdditiveUtilitySpace": {
+  "name": "sp",
+  "issueUtilities": {
+   "stelling0": {
+    "discreteutils": {
+     "valueUtilities": {
+      "Helemaal mee eens": 0.1,
+      "Mee eens": 0.4,
+      "Neutraal": 0.7,
+      "Niet mee eens": 1.0,
+      "Helemaal niet mee eens": 0.8
+     }
+    }
+   },
+   "stelling1": {
+    "discreteutils": {
+     "valueUtilities": {
+      "Helemaal mee eens": 0.1,
+      "Mee eens": 0.4,
+      "Neutraal": 0.7,
+      "Niet mee eens": 1.0,
+      "Helemaal niet mee eens": 0.8
+     }
+    }
+   },
+   "stelling2": {
+    "discreteutils": {
+     "valueUtilities": {
+      "Helemaal mee eens": 1.0,
+      "Mee eens": 0.8,
+      "Neutraal": 0.5,
+      "Niet mee eens": 0.3,
+      "Helemaal niet mee eens": 0.1
+     }
+    }
+   },
+   "stelling3": {
+    "discreteutils": {
+     "valueUtilities": {
+      "Helemaal mee eens": 1.0,
+      "Mee eens": 0.8,
+      "Neutraal": 0.5,
+      "Niet mee eens": 0.3,
+      "Helemaal niet mee eens": 0.1
+     }
+    }
+   },
+   "stelling4": {
+    "discreteutils": {
+     "valueUtilities": {
+      "Helemaal mee eens": 0.1,
+      "Mee eens": 0.3,
+      "Neutraal": 0.5,
+      "Niet mee eens": 0.8,
+      "Helemaal niet mee eens": 1.0
+     }
+    }
+   },
+   "stelling5": {
+    "discreteutils": {
+     "valueUtilities": {
+      "Helemaal mee eens": 0.1,
+      "Mee eens": 0.4,
+      "Neutraal": 0.7,
+      "Niet mee eens": 1.0,
+      "Helemaal niet mee eens": 0.8
+     }
+    }
+   },
+   "stelling6": {
+    "discreteutils": {
+     "valueUtilities": {
+      "Helemaal mee eens": 0.1,
+      "Mee eens": 0.4,
+      "Neutraal": 0.7,
+      "Niet mee eens": 1.0,
+      "Helemaal niet mee eens": 0.8
+     }
+    }
+   },
+   "stelling7": {
+    "discreteutils": {
+     "valueUtilities": {
+      "Helemaal mee eens": 1.0,
+      "Mee eens": 0.8,
+      "Neutraal": 0.5,
+      "Niet mee eens": 0.3,
+      "Helemaal niet mee eens": 0.1
+     }
+    }
+   },
+   "stelling8": {
+    "discreteutils": {
+     "valueUtilities": {
+      "Helemaal mee eens": 1.0,
+      "Mee eens": 0.8,
+      "Neutraal": 0.5,
+      "Niet mee eens": 0.3,
+      "Helemaal niet mee eens": 0.1
+     }
+    }
+   },
+   "stelling9": {
+    "discreteutils": {
+     "valueUtilities": {
+      "Helemaal mee eens": 1.0,
+      "Mee eens": 0.8,
+      "Neutraal": 0.5,
+      "Niet mee eens": 0.3,
+      "Helemaal niet mee eens": 0.1
+     }
+    }
+   },
+   "stelling10": {
+    "discreteutils": {
+     "valueUtilities": {
+      "Helemaal mee eens": 0.1,
+      "Mee eens": 0.4,
+      "Neutraal": 0.7,
+      "Niet mee eens": 1.0,
+      "Helemaal niet mee eens": 0.8
+     }
+    }
+   },
+   "stelling11": {
+    "discreteutils": {
+     "valueUtilities": {
+      "Helemaal mee eens": 0.1,
+      "Mee eens": 0.4,
+      "Neutraal": 0.7,
+      "Niet mee eens": 1.0,
+      "Helemaal niet mee eens": 0.8
+     }
+    }
+   },
+   "stelling12": {
+    "discreteutils": {
+     "valueUtilities": {
+      "Helemaal mee eens": 0.1,
+      "Mee eens": 0.3,
+      "Neutraal": 0.5,
+      "Niet mee eens": 0.8,
+      "Helemaal niet mee eens": 1.0
+     }
+    }
+   },
+   "stelling13": {
+    "discreteutils": {
+     "valueUtilities": {
+      "Helemaal mee eens": 0.8,
+      "Mee eens": 1.0,
+      "Neutraal": 0.7,
+      "Niet mee eens": 0.4,
+      "Helemaal niet mee eens": 0.1
+     }
+    }
+   },
+   "stelling14": {
+    "discreteutils": {
+     "valueUtilities": {
+      "Helemaal mee eens": 1.0,
+      "Mee eens": 0.8,
+      "Neutraal": 0.5,
+      "Niet mee eens": 0.3,
+      "Helemaal niet mee eens": 0.1
+     }
+    }
+   },
+   "stelling15": {
+    "discreteutils": {
+     "valueUtilities": {
+      "Helemaal mee eens": 1.0,
+      "Mee eens": 0.8,
+      "Neutraal": 0.5,
+      "Niet mee eens": 0.3,
+      "Helemaal niet mee eens": 0.1
+     }
+    }
+   },
+   "stelling16": {
+    "discreteutils": {
+     "valueUtilities": {
+      "Helemaal mee eens": 1.0,
+      "Mee eens": 0.8,
+      "Neutraal": 0.5,
+      "Niet mee eens": 0.3,
+      "Helemaal niet mee eens": 0.1
+     }
+    }
+   },
+   "stelling17": {
+    "discreteutils": {
+     "valueUtilities": {
+      "Helemaal mee eens": 0.1,
+      "Mee eens": 0.4,
+      "Neutraal": 0.7,
+      "Niet mee eens": 1.0,
+      "Helemaal niet mee eens": 0.8
+     }
+    }
+   },
+   "stelling18": {
+    "discreteutils": {
+     "valueUtilities": {
+      "Helemaal mee eens": 0.8,
+      "Mee eens": 1.0,
+      "Neutraal": 0.7,
+      "Niet mee eens": 0.4,
+      "Helemaal niet mee eens": 0.1
+     }
+    }
+   },
+   "stelling19": {
+    "discreteutils": {
+     "valueUtilities": {
+      "Helemaal mee eens": 0.1,
+      "Mee eens": 0.3,
+      "Neutraal": 0.5,
+      "Niet mee eens": 0.8,
+      "Helemaal niet mee eens": 1.0
+     }
+    }
+   },
+   "stelling20": {
+    "discreteutils": {
+     "valueUtilities": {
+      "Helemaal mee eens": 0.1,
+      "Mee eens": 0.4,
+      "Neutraal": 0.7,
+      "Niet mee eens": 1.0,
+      "Helemaal niet mee eens": 0.8
+     }
+    }
+   },
+   "stelling21": {
+    "discreteutils": {
+     "valueUtilities": {
+      "Helemaal mee eens": 0.1,
+      "Mee eens": 0.4,
+      "Neutraal": 0.7,
+      "Niet mee eens": 1.0,
+      "Helemaal niet mee eens": 0.8
+     }
+    }
+   },
+   "stelling22": {
+    "discreteutils": {
+     "valueUtilities": {
+      "Helemaal mee eens": 0.1,
+      "Mee eens": 0.5,
+      "Neutraal": 1.0,
+      "Niet mee eens": 0.5,
+      "Helemaal niet mee eens": 0.1
+     }
+    }
+   },
+   "stelling23": {
+    "discreteutils": {
+     "valueUtilities": {
+      "Helemaal mee eens": 0.1,
+      "Mee eens": 0.5,
+      "Neutraal": 1.0,
+      "Niet mee eens": 0.5,
+      "Helemaal niet mee eens": 0.1
+     }
+    }
+   },
+   "stelling24": {
+    "discreteutils": {
+     "valueUtilities": {
+      "Helemaal mee eens": 0.8,
+      "Mee eens": 1.0,
+      "Neutraal": 0.7,
+      "Niet mee eens": 0.4,
+      "Helemaal niet mee eens": 0.1
+     }
+    }
+   },
+   "stelling25": {
+    "discreteutils": {
+     "valueUtilities": {
+      "Helemaal mee eens": 0.1,
+      "Mee eens": 0.4,
+      "Neutraal": 0.7,
+      "Niet mee eens": 1.0,
+      "Helemaal niet mee eens": 0.8
+     }
+    }
+   },
+   "stelling26": {
+    "discreteutils": {
+     "valueUtilities": {
+      "Helemaal mee eens": 1.0,
+      "Mee eens": 0.8,
+      "Neutraal": 0.5,
+      "Niet mee eens": 0.3,
+      "Helemaal niet mee eens": 0.1
+     }
+    }
+   },
+   "stelling27": {
+    "discreteutils": {
+     "valueUtilities": {
+      "Helemaal mee eens": 0.8,
+      "Mee eens": 1.0,
+      "Neutraal": 0.7,
+      "Niet mee eens": 0.4,
+      "Helemaal niet mee eens": 0.1
+     }
+    }
+   },
+   "stelling28": {
+    "discreteutils": {
+     "valueUtilities": {
+      "Helemaal mee eens": 1.0,
+      "Mee eens": 0.8,
+      "Neutraal": 0.5,
+      "Niet mee eens": 0.3,
+      "Helemaal niet mee eens": 0.1
+     }
+    }
+   },
+   "stelling29": {
+    "discreteutils": {
+     "valueUtilities": {
+      "Helemaal mee eens": 0.1,
+      "Mee eens": 0.3,
+      "Neutraal": 0.5,
+      "Niet mee eens": 0.8,
+      "Helemaal niet mee eens": 1.0
+     }
+    }
+   }
+  },
+  "issueWeights": {
+   "stelling0": 0.025,
+   "stelling1": 0.042,
+   "stelling2": 0.032,
+   "stelling3": 0.032,
+   "stelling4": 0.042,
+   "stelling5": 0.021,
+   "stelling6": 0.032,
+   "stelling7": 0.053,
+   "stelling8": 0.053,
+   "stelling9": 0.032,
+   "stelling10": 0.032,
+   "stelling11": 0.021,
+   "stelling12": 0.021,
+   "stelling13": 0.042,
+   "stelling14": 0.032,
+   "stelling15": 0.053,
+   "stelling16": 0.032,
+   "stelling17": 0.053,
+   "stelling18": 0.032,
+   "stelling19": 0.021,
+   "stelling20": 0.032,
+   "stelling21": 0.042,
+   "stelling22": 0.011,
+   "stelling23": 0.011,
+   "stelling24": 0.021,
+   "stelling25": 0.032,
+   "stelling26": 0.042,
+   "stelling27": 0.032,
+   "stelling28": 0.042,
+   "stelling29": 0.032
+  },
+  "domain": {
+   "name": "tweedekamer2017kieskompasshortnames",
+   "issuesValues": {
+    "stelling0": {
+     "values": [
+      "Helemaal mee eens",
+      "Mee eens",
+      "Neutraal",
+      "Niet mee eens",
+      "Helemaal niet mee eens"
+     ]
+    },
+    "stelling1": {
+     "values": [
+      "Helemaal mee eens",
+      "Mee eens",
+      "Neutraal",
+      "Niet mee eens",
+      "Helemaal niet mee eens"
+     ]
+    },
+    "stelling2": {
+     "values": [
+      "Helemaal mee eens",
+      "Mee eens",
+      "Neutraal",
+      "Niet mee eens",
+      "Helemaal niet mee eens"
+     ]
+    },
+    "stelling3": {
+     "values": [
+      "Helemaal mee eens",
+      "Mee eens",
+      "Neutraal",
+      "Niet mee eens",
+      "Helemaal niet mee eens"
+     ]
+    },
+    "stelling4": {
+     "values": [
+      "Helemaal mee eens",
+      "Mee eens",
+      "Neutraal",
+      "Niet mee eens",
+      "Helemaal niet mee eens"
+     ]
+    },
+    "stelling5": {
+     "values": [
+      "Helemaal mee eens",
+      "Mee eens",
+      "Neutraal",
+      "Niet mee eens",
+      "Helemaal niet mee eens"
+     ]
+    },
+    "stelling6": {
+     "values": [
+      "Helemaal mee eens",
+      "Mee eens",
+      "Neutraal",
+      "Niet mee eens",
+      "Helemaal niet mee eens"
+     ]
+    },
+    "stelling7": {
+     "values": [
+      "Helemaal mee eens",
+      "Mee eens",
+      "Neutraal",
+      "Niet mee eens",
+      "Helemaal niet mee eens"
+     ]
+    },
+    "stelling8": {
+     "values": [
+      "Helemaal mee eens",
+      "Mee eens",
+      "Neutraal",
+      "Niet mee eens",
+      "Helemaal niet mee eens"
+     ]
+    },
+    "stelling9": {
+     "values": [
+      "Helemaal mee eens",
+      "Mee eens",
+      "Neutraal",
+      "Niet mee eens",
+      "Helemaal niet mee eens"
+     ]
+    },
+    "stelling10": {
+     "values": [
+      "Helemaal mee eens",
+      "Mee eens",
+      "Neutraal",
+      "Niet mee eens",
+      "Helemaal niet mee eens"
+     ]
+    },
+    "stelling11": {
+     "values": [
+      "Helemaal mee eens",
+      "Mee eens",
+      "Neutraal",
+      "Niet mee eens",
+      "Helemaal niet mee eens"
+     ]
+    },
+    "stelling12": {
+     "values": [
+      "Helemaal mee eens",
+      "Mee eens",
+      "Neutraal",
+      "Niet mee eens",
+      "Helemaal niet mee eens"
+     ]
+    },
+    "stelling13": {
+     "values": [
+      "Helemaal mee eens",
+      "Mee eens",
+      "Neutraal",
+      "Niet mee eens",
+      "Helemaal niet mee eens"
+     ]
+    },
+    "stelling14": {
+     "values": [
+      "Helemaal mee eens",
+      "Mee eens",
+      "Neutraal",
+      "Niet mee eens",
+      "Helemaal niet mee eens"
+     ]
+    },
+    "stelling15": {
+     "values": [
+      "Helemaal mee eens",
+      "Mee eens",
+      "Neutraal",
+      "Niet mee eens",
+      "Helemaal niet mee eens"
+     ]
+    },
+    "stelling16": {
+     "values": [
+      "Helemaal mee eens",
+      "Mee eens",
+      "Neutraal",
+      "Niet mee eens",
+      "Helemaal niet mee eens"
+     ]
+    },
+    "stelling17": {
+     "values": [
+      "Helemaal mee eens",
+      "Mee eens",
+      "Neutraal",
+      "Niet mee eens",
+      "Helemaal niet mee eens"
+     ]
+    },
+    "stelling18": {
+     "values": [
+      "Helemaal mee eens",
+      "Mee eens",
+      "Neutraal",
+      "Niet mee eens",
+      "Helemaal niet mee eens"
+     ]
+    },
+    "stelling19": {
+     "values": [
+      "Helemaal mee eens",
+      "Mee eens",
+      "Neutraal",
+      "Niet mee eens",
+      "Helemaal niet mee eens"
+     ]
+    },
+    "stelling20": {
+     "values": [
+      "Helemaal mee eens",
+      "Mee eens",
+      "Neutraal",
+      "Niet mee eens",
+      "Helemaal niet mee eens"
+     ]
+    },
+    "stelling21": {
+     "values": [
+      "Helemaal mee eens",
+      "Mee eens",
+      "Neutraal",
+      "Niet mee eens",
+      "Helemaal niet mee eens"
+     ]
+    },
+    "stelling22": {
+     "values": [
+      "Helemaal mee eens",
+      "Mee eens",
+      "Neutraal",
+      "Niet mee eens",
+      "Helemaal niet mee eens"
+     ]
+    },
+    "stelling23": {
+     "values": [
+      "Helemaal mee eens",
+      "Mee eens",
+      "Neutraal",
+      "Niet mee eens",
+      "Helemaal niet mee eens"
+     ]
+    },
+    "stelling24": {
+     "values": [
+      "Helemaal mee eens",
+      "Mee eens",
+      "Neutraal",
+      "Niet mee eens",
+      "Helemaal niet mee eens"
+     ]
+    },
+    "stelling25": {
+     "values": [
+      "Helemaal mee eens",
+      "Mee eens",
+      "Neutraal",
+      "Niet mee eens",
+      "Helemaal niet mee eens"
+     ]
+    },
+    "stelling26": {
+     "values": [
+      "Helemaal mee eens",
+      "Mee eens",
+      "Neutraal",
+      "Niet mee eens",
+      "Helemaal niet mee eens"
+     ]
+    },
+    "stelling27": {
+     "values": [
+      "Helemaal mee eens",
+      "Mee eens",
+      "Neutraal",
+      "Niet mee eens",
+      "Helemaal niet mee eens"
+     ]
+    },
+    "stelling28": {
+     "values": [
+      "Helemaal mee eens",
+      "Mee eens",
+      "Neutraal",
+      "Niet mee eens",
+      "Helemaal niet mee eens"
+     ]
+    },
+    "stelling29": {
+     "values": [
+      "Helemaal mee eens",
+      "Mee eens",
+      "Neutraal",
+      "Niet mee eens",
+      "Helemaal niet mee eens"
+     ]
+    }
+   }
+  }
+ }
+}
