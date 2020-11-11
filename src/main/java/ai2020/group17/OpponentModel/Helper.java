@@ -57,7 +57,7 @@ public class Helper {
     }
 
 
-
+    // If only there was numpy
     public static int drawFromDiscreteDist(ArrayList<Double> distribution) {
         double total =  distribution.stream().mapToDouble(x->x).sum();
 
@@ -66,14 +66,11 @@ public class Helper {
         double cumulative = random.nextDouble() * total;
 
         int i = 0;
-        for (; i < distribution.size(); i++) {
+        do  {
             cumulative -= distribution.get(i);
+            i++;
+        } while (i < distribution.size() && cumulative > 0);
 
-            if (cumulative < 0) {
-                break;
-            }
-        }
-
-        return i;
+        return i - 1;
     }
 }
