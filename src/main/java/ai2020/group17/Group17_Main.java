@@ -58,6 +58,8 @@ import tudelft.utilities.logging.Reporter;
  */
 public class Group17_Main extends DefaultParty {
 
+	public static final double START_THRESHOLD = 0.9;
+	public static final double END_THRESHOLD = 0.6;
 	private Bid lastReceivedBid = null;
 	private PartyId me;
 	private final Random random = new Random();
@@ -284,7 +286,7 @@ public class Group17_Main extends DefaultParty {
 			ProgressRounds progressRounds = ((ProgressRounds) progress);
 
 			double progressDouble = (double) progressRounds.getCurrentRound() / (double) progressRounds.getTotalRounds();
-			double roundThreshold = progressDouble * 0.6 + (1 - progressDouble) * 0.9;
+			double roundThreshold = progressDouble * END_THRESHOLD + (1 - progressDouble) * START_THRESHOLD;
 
 			assert roundThreshold > 0 && roundThreshold < 1;
 
@@ -340,7 +342,7 @@ public class Group17_Main extends DefaultParty {
 		ProgressRounds progressRounds = ((ProgressRounds) progress);
 
 		double progressDouble = (double) progressRounds.getCurrentRound() / (double) progressRounds.getTotalRounds();
-		double roundThreshold = progressDouble * 0.6 + (1 - progressDouble) * 0.9;
+		double roundThreshold = progressDouble * END_THRESHOLD + (1 - progressDouble) * START_THRESHOLD;
 
 
 		Set<Vote> votes = voting.getBids().stream().distinct()
