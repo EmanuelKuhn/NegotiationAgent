@@ -337,8 +337,14 @@ public class Group17_Main extends DefaultParty {
 	 */
 	private Votes vote(Voting voting) throws IOException {
 
+		ProgressRounds progressRounds = ((ProgressRounds) progress);
+
+		double progressDouble = (double) progressRounds.getCurrentRound() / (double) progressRounds.getTotalRounds();
+		double roundThreshold = progressDouble * 0.6 + (1 - progressDouble) * 0.9;
+
+
 		Set<Vote> votes = voting.getBids().stream().distinct()
-				.filter(offer -> isGood(offer.getBid(), 0.8))
+				.filter(offer -> isGood(offer.getBid(), roundThreshold))
 				.map(offer -> new Vote(me, offer.getBid(), minPower, maxPower))
 				.collect(Collectors.toSet());
 		return new Votes(me, votes);
