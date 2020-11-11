@@ -35,7 +35,7 @@ public class BidGeneration {
             partyDistances.add(new Tuple<>(opp.getKey(), distance(this.myProfile, opp.getValue())));
         }
 
-        partyDistances.sort(Collections.reverseOrder(Comparator.comparingDouble(Tuple::get2)));
+        partyDistances.sort(Comparator.comparingDouble(Tuple::get2));
 
         // List of closest parties that have enough power
         List<PartyId> targetParties = new ArrayList<>();
