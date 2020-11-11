@@ -36,11 +36,8 @@ public class BidGeneration {
             partyDistances.add(new Tuple<>(opp.getKey(), distance(this.myProfile, opp.getValue())));
         }
 
-
         partyDistances.sort(Comparator.comparingDouble(Tuple::get2));
 
-
-       
         List<PartyId> targetParties = new ArrayList<>();
 
         // Add parties until a sum of powers is reached, higher than the minPower
