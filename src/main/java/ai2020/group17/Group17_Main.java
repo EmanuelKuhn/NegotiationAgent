@@ -58,6 +58,9 @@ import tudelft.utilities.logging.Reporter;
  */
 public class Group17_Main extends DefaultParty {
 
+	public static final double END_TRESHOLD = 0.6;
+	private static final double START_THRESHOLD = 0.9;
+
 	private Bid lastReceivedBid = null;
 	private PartyId me;
 	private final Random random = new Random();
@@ -281,10 +284,7 @@ public class Group17_Main extends DefaultParty {
 
 			System.out.println("USING OPPONENT MODEL");
 
-			ProgressRounds progressRounds = ((ProgressRounds) progress);
-
-			double progressDouble = (double) progressRounds.getCurrentRound() / (double) progressRounds.getTotalRounds();
-			double roundThreshold = progressDouble * 0.6 + (1 - progressDouble) * 0.9;
+			double roundThreshold = computeRoundThreshold(END_TRESHOLD, START_THRESHOLD);
 
 			assert roundThreshold > 0 && roundThreshold < 1;
 
@@ -337,11 +337,21 @@ public class Group17_Main extends DefaultParty {
 	 */
 	private Votes vote(Voting voting) throws IOException {
 
+		double roundThreshold = computeRoundThreshold(START_THRESHOLD, END_TRESHOLD);
+
+
 		Set<Vote> votes = voting.getBids().stream().distinct()
-				.filter(offer -> isGood(offer.getBid(), 0.8))
+				.filter(offer -> isGood(offer.getBid(), roundThreshold))
 				.map(offer -> new Vote(me, offer.getBid(), minPower, maxPower))
 				.collect(Collectors.toSet());
 		return new Votes(me, votes);
+	}
+
+	private double computeRoundThreshold(double startThreshold, double endTreshold) {
+		ProgressRounds progressRounds = ((ProgressRounds) this.progress);
+
+		double progressDouble = (double) progressRounds.getCurrentRound() / (double) progressRounds.getTotalRounds();
+		return progressDouble * startThreshold + (1 - progressDouble) * endTreshold;
 	}
 
 }
