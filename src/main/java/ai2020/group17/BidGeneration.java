@@ -36,8 +36,9 @@ public class BidGeneration {
             partyDistances.add(new Tuple<>(opp.getKey(), distance(this.myProfile, opp.getValue())));
         }
 
-        // Sort the parties on decreasing distance
-        partyDistances.sort(Collections.reverseOrder(Comparator.comparingDouble(Tuple::get2)));
+
+        partyDistances.sort(Comparator.comparingDouble(Tuple::get2));
+
 
        
         List<PartyId> targetParties = new ArrayList<>();
