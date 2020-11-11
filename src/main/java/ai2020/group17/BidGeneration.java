@@ -17,13 +17,13 @@ public class BidGeneration {
 
     private LinearAdditive myProfile;
     private Map<PartyId, Integer> powers;
-    private int minPower;
+    private int minOpponentPower;
 
-    public BidGeneration(LinearAdditive myProfile, Map<PartyId, Integer> powers, int minPower) {
+    public BidGeneration(LinearAdditive myProfile, Map<PartyId, Integer> powers, int minOpponentPower) {
         this.myProfile = myProfile;
 
         this.powers = powers;
-        this.minPower = minPower;
+        this.minOpponentPower = minOpponentPower;
     }
 
 
@@ -41,11 +41,11 @@ public class BidGeneration {
         List<PartyId> targetParties = new ArrayList<>();
 
         // Add parties until a sum of powers is reached, higher than the minPower
-        for (int i = 0; i < partyDistances.size() && targetParties.stream().mapToInt(this.powers::get).sum() < minPower; i++) {
+        for (int i = 0; i < partyDistances.size() && targetParties.stream().mapToInt(this.powers::get).sum() < minOpponentPower; i++) {
             targetParties.add(partyDistances.get(i).get1());
         }
 
-        assert targetParties.stream().mapToInt(this.powers::get).sum() >= minPower;
+        assert targetParties.stream().mapToInt(this.powers::get).sum() >= minOpponentPower;
 
         Map<String, BigDecimal> issueWeights = myProfile.getWeights();
 

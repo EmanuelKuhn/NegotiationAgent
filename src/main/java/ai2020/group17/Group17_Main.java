@@ -76,6 +76,7 @@ public class Group17_Main extends DefaultParty {
 
 	private int minPower;
 	private int maxPower;
+	private int myPower;
 
 	private Map<PartyId, LinearAdditive> opponentModelMap = new HashMap<>();
 	private Map<PartyId, Integer> powers;
@@ -112,6 +113,10 @@ public class Group17_Main extends DefaultParty {
 				val = settings.getParameters().get("maxPower");
 				maxPower = (val instanceof Integer) ? (Integer) val
 						: Integer.MAX_VALUE;
+
+				val = settings.getParameters().get("power");
+				myPower = (val instanceof Integer) ? (Integer) val
+						: 1;
 
 				System.out.println("minPower: " + minPower);
 				System.out.println("maxPower: " + maxPower);
