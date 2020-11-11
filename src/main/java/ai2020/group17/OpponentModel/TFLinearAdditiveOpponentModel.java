@@ -158,8 +158,17 @@ public class TFLinearAdditiveOpponentModel implements OpponentModel, LinearAddit
 	@Override
 	public BigDecimal getUtility(Bid bid) {
 
-		int[] options = mapper.convertOptions(bid.getIssueValues());
+		double utility = 0;
 
-		return BigDecimal.valueOf(this.tfModel.predict(options));
+		Map<String, ValueSetUtilities> utilities = this.getUtilities();
+		Map<String, BigDecimal> weights = this.getWeights();
+
+		for(String issue: bid.getIssues()) {
+			Value  value = bid.getIssueValues().get(issue);
+
+			utility += weights.get(issue).doubleValue() * utilities.get(issue).getUtility(value).doubleValue();
+		}
+
+		return BigDecimal.valueOf(utility);
 	}
 }
