@@ -89,17 +89,27 @@ public class BidGeneration {
         double minUtilityForCurrentIssue = minTotalUtility - currentUtility - maxRemainingUtility;
 
         // All possible values for the current issue that would get us over the threshold
-        List<DiscreteValue> consideredValues = new ArrayList<>();
+        Set<DiscreteValue> consideredValues = new HashSet<>();
 
+        Tuple<Value, Double> maxValue = null;
         for (Value value: this.myProfile.getDomain().getValues(issue)) {
             double utility = this.myProfile.getUtility(new Bid(issue, value)).doubleValue();
 
             if (utility >= minUtilityForCurrentIssue) {
                 consideredValues.add((DiscreteValue) value);
             }
+
+            if (maxValue  == null || maxValue.get2() < utility) {
+                maxValue = new Tuple<>(value, utility);
+            }
         }
 
-        Bid currentIssuePartialBid = new Bid(issue, drawIssueValue(issue, consideredValues, parties));
+        assert maxValue != null;
+
+        // Make sure at least one value is under consideration
+        consideredValues.add((DiscreteValue) maxValue.get1());
+
+        Bid currentIssuePartialBid = new Bid(issue, drawIssueValue(issue, new ArrayList<>(consideredValues), parties));
 
         if (currentPartialBid == null) {
             return currentIssuePartialBid;
