@@ -239,7 +239,7 @@ public class Group17_Main extends DefaultParty {
 
 			System.out.println("before BidGeneration bidGeneration");
 
-			BidGeneration bidGeneration = new BidGeneration(profile, powers, minPower);
+			BidGeneration bidGeneration = new BidGeneration(profile, powers, minPower - myPower);
 
 			System.out.println("CREATED BidGeneration OBJECT");
 
