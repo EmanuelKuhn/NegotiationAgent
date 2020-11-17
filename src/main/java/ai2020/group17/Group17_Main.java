@@ -7,7 +7,6 @@ import geniusweb.inform.*;
 import geniusweb.issuevalue.Bid;
 import geniusweb.party.Capabilities;
 import geniusweb.party.DefaultParty;
-import geniusweb.profile.PartialOrdering;
 import geniusweb.profile.Profile;
 import geniusweb.profile.utilityspace.LinearAdditive;
 import geniusweb.profile.utilityspace.LinearAdditiveUtilitySpace;
@@ -26,8 +25,12 @@ import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 /**
- * A simple party that places random bids and accepts when it receives an offer
- * with sufficient utility.
+ * Party that generates random offers biased towards what we predict the opponents value.
+ * It concedes slowly by reducing the minimum threshold of the offer proportional to the current round.
+ *
+ * Makes use of a custom opponent model implemented in tensorflow, and a custom bidding strategy that
+ * generates random bids, which are biased to what we predict the opponents value based on the opponent models.
+ *
  * <h2>parameters</h2>
  * <table >
  * <caption>parameters</caption>
@@ -41,33 +44,34 @@ import java.util.stream.Collectors;
  * <td>This value is used as maxPower for placed {@link Vote}s. Default value is
  * infinity.</td>
  * </tr>
+ * <tr>
+ * <td>power</td>
+ * <td>This value is used as power of the current agent. Default is 1</td>
+ * </tr>
  * </table>
  */
 public class Group17_Main extends DefaultParty {
 
+	int DEFAULT_MIN_POWER = 76;
+
 	public static final double START_THRESHOLD = 0.9;
 	public static final double END_THRESHOLD = 0.6;
-	private Bid lastReceivedBid = null;
 	private PartyId me;
-	private final Random random = new Random();
 	protected ProfileInterface profileint;
 	private Progress progress;
-	private Settings settings;
 	private Votes lastvotes;
 	private String protocol;
-	private LinearAdditiveUtilitySpace space;
 	private BidsWithUtility bidsWithUtility;
-	private Interval range; 
 	private BigDecimal maxRange;
-	private BigDecimal minRange;
-	private int firstBestBids = 5;
 
+	// Variable indicating how many rounds random very high valued bids should be placed.
+	private final int firstBestBids = 5;
 
 	private int minPower;
 	private int maxPower;
 	private int myPower;
 
-	private Map<PartyId, LinearAdditive> opponentModelMap = new HashMap<>();
+	private final Map<PartyId, LinearAdditive> opponentModelMap = new HashMap<>();
 	private Map<PartyId, Integer> powers;
 
 	public Group17_Main() {
@@ -86,18 +90,16 @@ public class Group17_Main extends DefaultParty {
 						.create(settings.getProfile().getURI(), getReporter());
 				this.me = settings.getID();
 				this.progress = settings.getProgress();
-				this.settings = settings;
 				this.protocol = settings.getProtocol().getURI().getPath();
-				
-				this.space = (LinearAdditiveUtilitySpace) this.profileint.getProfile();
-				this.bidsWithUtility = new BidsWithUtility(this.space);
-				
-				this.range = bidsWithUtility.getRange();
+
+				LinearAdditiveUtilitySpace space = (LinearAdditiveUtilitySpace) this.profileint.getProfile();
+				this.bidsWithUtility = new BidsWithUtility(space);
+
+				Interval range = bidsWithUtility.getRange();
 				this.maxRange = range.getMax();
-				this.minRange = range.getMin();
 
 				Object val = settings.getParameters().get("minPower");
-				this.minPower = (val instanceof Integer) ? (Integer) val : 76;
+				this.minPower = (val instanceof Integer) ? (Integer) val : DEFAULT_MIN_POWER;
 
 				val = settings.getParameters().get("maxPower");
 				maxPower = (val instanceof Integer) ? (Integer) val
@@ -107,16 +109,9 @@ public class Group17_Main extends DefaultParty {
 				myPower = (val instanceof Integer) ? (Integer) val
 						: 1;
 
-				System.out.println("minPower: " + minPower);
-				System.out.println("maxPower: " + maxPower);
-
 
 			} else if (info instanceof ActionDone) {
 				Action otheract = ((ActionDone) info).getAction();
-				
-				if (otheract instanceof Offer) {
-					lastReceivedBid = ((Offer) otheract).getBid();
-				}
 
 				// Train the opponent models when a new Offer or Votes arrive.
 				if (otheract instanceof Offer || otheract instanceof Votes) {
@@ -133,7 +128,7 @@ public class Group17_Main extends DefaultParty {
 			} else if (info instanceof YourTurn) {
 				makeOffer();
 			} else if (info instanceof Finished) {
-				getReporter().log(Level.INFO, "Final ourcome:" + info);
+				getReporter().log(Level.INFO, "Final outcome:" + info);
 			} else if (info instanceof Voting) {
 
 				this.powers = ((Voting) info).getPowers();
@@ -153,13 +148,13 @@ public class Group17_Main extends DefaultParty {
 	@Override
 	public Capabilities getCapabilities() {
 		return new Capabilities(
-				new HashSet<>(Arrays.asList("SAOP", "AMOP", "MOPAC")),
+				new HashSet<>(Collections.singletonList("MOPAC")),
 				Collections.singleton(Profile.class));
 	}
 
 	@Override
 	public String getDescription() {
-		return "Agent that runs in MOPaC";
+		return "Group 17 agent that runs in MOPaC.";
 	}
 
 	/**
@@ -171,18 +166,11 @@ public class Group17_Main extends DefaultParty {
 	private void updateRound(Inform info) {
 		if (protocol == null)
 			return;
-		switch (protocol) {
-		case "SAOP":
-		case "SHAOP":
-			if (!(info instanceof YourTurn))
-				return;
-			break;
-		case "MOPAC":
+		if ("MOPAC".equals(protocol)) {
 			if (!(info instanceof OptIn))
-				// 
+				//
 				return;
-			break;
-		default:
+		} else {
 			return;
 		}
 		// if we get here, round must be increased.
@@ -206,10 +194,10 @@ public class Group17_Main extends DefaultParty {
 		}
 		
 		int round = ((ProgressRounds) progress).getCurrentRound();
-		Bid bid = null;
+		Bid bid;
 
 		if (round <= firstBestBids) {
-
+			// Generate random good bid for first few rounds
 
 			Interval firstInterval = new Interval(maxRange.multiply(BigDecimal.valueOf(0.9)), maxRange);
 			
@@ -218,32 +206,25 @@ public class Group17_Main extends DefaultParty {
 			} else {
 				bid = this.bidsWithUtility.getExtremeBid(true);
 			}
-			
-
 		} else {
+			// Generate bid using opponent model
 
-			System.out.println("USING OPPONENT MODEL");
-
+			// Compute threshold to use this round
 			double roundThreshold = computeRoundThreshold();
 
-			System.out.println("before BidGeneration bidGeneration");
-
 			BidGeneration bidGeneration = new BidGeneration(profile, powers, minPower - myPower);
-
-			System.out.println("CREATED BidGeneration OBJECT");
-
 			bid = bidGeneration.generateBid(opponentModelMap, roundThreshold);
-
-			System.out.println("bid WAS GENERATED WITH OPPONENT MODEL");
 
 		}
 
 		action = new Offer(me, bid);
-		
 		getConnection().send(action);
-
 	}
 
+	/**
+	 * Compute round threshold by interpolating between start and end thresholds.
+	 * @return Interpolated threshold
+	 */
 	private double computeRoundThreshold() {
 		ProgressRounds progressRounds = ((ProgressRounds) progress);
 
@@ -267,14 +248,7 @@ public class Group17_Main extends DefaultParty {
 			throw new IllegalStateException(e);
 		}
 		
-		if (profile instanceof UtilitySpace)
-			return ((UtilitySpace) profile).getUtility(bid).doubleValue() >= t;
-		
-		if (profile instanceof PartialOrdering) {
-			return ((PartialOrdering) profile).isPreferredOrEqual(bid,
-					profile.getReservationBid());
-		}
-		return false;
+		return ((UtilitySpace) profile).getUtility(bid).doubleValue() >= t;
 	}
 
 	/**
