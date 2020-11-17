@@ -10,20 +10,25 @@ import org.tensorflow.op.train.ApplyGradientDescent;
 import org.tensorflow.types.TFloat32;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Supplier;
 
-// Class containing methods to apply the tf operations concerned with weights and calculting the utility.
+/**
+ * Class for setting up and keeping references to tf placeholders and variables involved in computing the utility.
+ */
 public class TFUtility {
 
+    // The TFIssue objects for each issue.
     TFIssue[] issues;
-    Map<String, Integer> issuesIdx = new HashMap<>();
 
+    // The relative weights between the issues.
     Variable<TFloat32> weights;
-//    Assign<TFloat32> weightsInit;
 
+    /**
+     * Create TFUtility with given bid shape.
+     * @param tf The tf Ops.
+     * @param issuesOptions The shape of the domain.
+     */
     public TFUtility(Ops tf, int[] issuesOptions) {
 
         issues = new TFIssue[issuesOptions.length];
@@ -35,10 +40,32 @@ public class TFUtility {
         weights = tf.variable(Shape.of(issues.length), TFloat32.DTYPE);
     }
 
+    /**
+     * Method for applying the tf assign operation to the weights.
+     * @param tf The tf Ops
+     * @param initializationValue The value to initialize the weights to.
+     * @return tf Assign operation.
+     */
     public Assign<TFloat32> initWeights(Ops tf, float initializationValue) {
         return initWeights(tf, () -> Helper.repeat(initializationValue, issues.length));
     }
 
+    /**
+     * Method for applying the tf assign operation to the weights.
+     * @param tf The tf Ops
+     * @param initializer How to initialize the weights.
+     * @return tf Assign operation.
+     */
+    public Assign<TFloat32> initWeights(Ops tf, Supplier<float[]> initializer) {
+        return tf.assign(weights, tf.constant(initializer.get()));
+    }
+
+    /**
+     * Initialize the issue utility weights for each issue.
+     * @param tf The tf Ops.
+     * @param initializationValue The value to initialize the utility weights to.
+     * @return List of tf Assign operations.
+     */
     public List<Assign<TFloat32>> initIssueWeights(Ops tf, float initializationValue) {
 
         List<Assign<TFloat32>> assigns = new ArrayList<>();
@@ -50,10 +77,11 @@ public class TFUtility {
         return assigns;
     }
 
-    public Assign<TFloat32> initWeights(Ops tf, Supplier<float[]> initializer) {
-        return tf.assign(weights, tf.constant(initializer.get()));
-    }
-
+    /**
+     * Reference to the predict utility operation.
+     * @param tf The tf Ops.
+     * @return Operand to the predicted utility.
+     */
     public Operand<TFloat32> predictUtility(Ops tf) {
         ArrayList<Operand<TFloat32>> issueUtilities = new ArrayList<>();
 
@@ -64,12 +92,22 @@ public class TFUtility {
         return utility(tf, issueUtilities, weights);
     }
 
+    /**
+     * Feed in a bid.
+     * @param runner The tf runner.
+     * @param options The bid to feed.
+     */
     public void feed(Session.Runner runner, int[] options) {
         for (int i = 0; i < issues.length; i++) {
             issues[i].feed(runner, options[i]);
         }
     }
 
+    /**
+     * Method for gathering all weights that should be trained.
+     * Including both the issue utility weights and the relative weights.
+     * @return List of all weights.
+     */
     private List<Variable<TFloat32>> getWeightVariables() {
         List<Variable<TFloat32>> variableList = new ArrayList<>();
 
@@ -81,6 +119,13 @@ public class TFUtility {
         return variableList;
     }
 
+    /**
+     * Apply descent to all weights given a loss, and training rate.
+     * @param tf The tf Ops.
+     * @param loss Reference to the loss value.
+     * @param alpha The training rate.
+     * @return List of all ApplyGradientDescent operations.
+     */
     public List<ApplyGradientDescent<TFloat32>> applyGradientDescent(Ops tf, Operand<TFloat32> loss, Operand<TFloat32> alpha) {
 
         List<Variable<TFloat32>> variableList = getWeightVariables();
@@ -96,12 +141,26 @@ public class TFUtility {
         return gradientDescentList;
     }
 
+    /**
+     * Compute normalized relative weights.
+     * @param tf The tf Ops.
+     * @param weights The weights to normalize.
+     *
+     * @return Normalized version of {@param weights}
+     */
     public static Operand<TFloat32> normalizedWeights(Ops tf, Operand<TFloat32> weights) {
         ReduceSum<TFloat32> sumOfWeights = tf.reduceSum(weights, tf.constant(0));
 
         return tf.math.div(weights, sumOfWeights);
     }
 
+    /**
+     * Reference to the predict utility operation given issue utility weights and relative weights.
+     * @param tf The tf Ops.
+     * @param issueUtilities The issue utility weights.
+     * @param weights The relative weights.
+     * @return Operand to the predicted utility.
+     */
     private static Operand<TFloat32> utility(Ops tf, Iterable<Operand<TFloat32>> issueUtilities, Operand<TFloat32> weights) {
 
         Stack<TFloat32> utilities = tf.stack(issueUtilities);

@@ -12,17 +12,24 @@ import geniusweb.profile.utilityspace.ValueSetUtilities;
 import geniusweb.progress.Progress;
 
 import java.math.BigDecimal;
-import java.util.*;
-import java.util.stream.Stream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 // Opponent model that attempts to infer opponent's LinearAdditive utility function through gradient descent on a Tensorflow model.
+// This class functions as a wrapper around TFUtilityModel that supports the GeniusWeb classes.
 public class TFLinearAdditiveOpponentModel implements OpponentModel, LinearAdditive {
 
 	private Domain domain;
+
+	// Mapper object used to map geniusweb bids to int[] bids
 	private UtilityOfferStringToIntOptionsMapper mapper = null;
 
+	// The actual tensorflow model
 	private TFUtilityModel tfModel;
 
+	// The list of gathered data points to train the model on.
 	private List<TFUtilityModel.TrainingExample> trainingData = new ArrayList<>();
 
 	public TFLinearAdditiveOpponentModel() {
@@ -65,7 +72,7 @@ public class TFLinearAdditiveOpponentModel implements OpponentModel, LinearAddit
 
 	@Override
 	public Bid getReservationBid() {
-		// TODO Auto-generated method stub
+		// Not used
 		return null;
 	}
 
@@ -79,6 +86,7 @@ public class TFLinearAdditiveOpponentModel implements OpponentModel, LinearAddit
 		TFUtilityModel tfModel = this.tfModel;
 		this.tfModel = null;
 
+		// Convert incoming action into training examples
 		if (action instanceof Votes) {
 
 			Votes votes = (Votes) action;
@@ -107,24 +115,27 @@ public class TFLinearAdditiveOpponentModel implements OpponentModel, LinearAddit
 			trainingData.add(trainingExample);
 		}
 
+		// Train the model on all training data gather up to now
 		tfModel.train(this.trainingData);
 
-		return new TFLinearAdditiveOpponentModel(domain, mapper, tfModel, trainingData);
+		return new TFLinearAdditiveOpponentModel(this.domain, this.mapper, tfModel, this.trainingData);
 	}
+
 
 	@Override
 	public Map<String, ValueSetUtilities> getUtilities() {
-
+		// Set up resulting hashmap of utilities per issue
 		Map<String, ValueSetUtilities> valueSetUtilitiesMap = new HashMap<>();
 
 		for (String issueName: this.domain.getIssues()) {
 
 			int issueIndex = mapper.issueIndices.get(issueName);
 
+			// Get the utilities for issueName from the tf model
 			double[] weights = this.tfModel.computeIssueWeights(issueIndex);
 
+			// Put gathered utilities into a map of value -> utility
 			Map<DiscreteValue, BigDecimal> result = new HashMap<>();
-
 			for (int i = 0; i < weights.length; i++) {
 				result.put((DiscreteValue) mapper.mapOptionIndexToValue(issueIndex, i), BigDecimal.valueOf(weights[i]));
 			}
@@ -137,10 +148,12 @@ public class TFLinearAdditiveOpponentModel implements OpponentModel, LinearAddit
 
 	@Override
 	public Map<String, BigDecimal> getWeights() {
+
+		// Get the weights from the model
 		double[] weights = this.tfModel.computeWeights();
 
+		// Put gathered weights into map of issue name -> weight
 		Map<String, BigDecimal> result = new HashMap<>();
-
 		for (int i = 0; i < weights.length; i++) {
 			result.put(mapper.mapIndexToIssue(i), BigDecimal.valueOf(weights[i]));
 		}
@@ -153,15 +166,17 @@ public class TFLinearAdditiveOpponentModel implements OpponentModel, LinearAddit
 		return getWeights().get(issue);
 	}
 
-	// Also supports getting the utility for a partial bid
 	@Override
 	public BigDecimal getUtility(Bid bid) {
 
 		double utility = 0;
 
+		// First get weights
+		// This approach was chosen over directly using the tf model to allow for partial bids
 		Map<String, ValueSetUtilities> utilities = this.getUtilities();
 		Map<String, BigDecimal> weights = this.getWeights();
 
+		// Calculate weighted utility for bid
 		for(String issue: bid.getIssues()) {
 			Value  value = bid.getIssueValues().get(issue);
 
