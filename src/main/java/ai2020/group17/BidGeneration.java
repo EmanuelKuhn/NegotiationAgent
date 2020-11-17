@@ -10,8 +10,8 @@ import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static ai2020.group17.OpponentModel.Helper.distance;
-import static ai2020.group17.OpponentModel.Helper.drawFromDiscreteDist;
+import static ai2020.group17.Helper.distance;
+import static ai2020.group17.Helper.drawFromDiscreteDist;
 
 public class BidGeneration {
 
