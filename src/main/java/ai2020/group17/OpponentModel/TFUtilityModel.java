@@ -15,7 +15,6 @@ import org.tensorflow.types.TFloat32;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
 import static org.tensorflow.op.core.Placeholder.shape;
@@ -191,27 +190,6 @@ public class TFUtilityModel {
         }
 
     }
-
-//    /**
-//     * Find the bid that maximizes the predicted utility.
-//     * @return bid with maximum predicted utility.
-//     */
-//    public int[] findMaximumOffer() {
-//
-//    	int[] offer = new int[tfUtility.issues.length];
-//
-//        for(int i = 0; i < this.tfUtility.issues.length; i++) {
-//            Tensor<?> computedIssueWeights = session.runner().fetch(this.tfUtility.issues[i].issueWeights).run().get(0);
-//
-//            FloatDataBuffer floats = computedIssueWeights.rawData().asFloats();
-//
-//            int maxIndex = IntStream.range(0,  (int) floats.size()).reduce((max, next) -> floats.getFloat(next) > floats.getFloat(max) ? next : max).getAsInt();
-//
-//            offer[i] = maxIndex;
-//        }
-//
-//        return offer;
-//    }
 
     // Equivalent to the LinearAdditive UtilitySpace getWeights()
     public double[] computeWeights() {
