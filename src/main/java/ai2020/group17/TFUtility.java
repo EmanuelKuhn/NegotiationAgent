@@ -1,4 +1,4 @@
-package ai2020.group17.OpponentModel;
+package ai2020.group17;
 
 import org.tensorflow.Operand;
 import org.tensorflow.Session;
@@ -146,7 +146,7 @@ public class TFUtility {
      * @param tf The tf Ops.
      * @param weights The weights to normalize.
      *
-     * @return Normalized version of {@param weights}
+     * @return Normalized version of {@code weights}
      */
     public static Operand<TFloat32> normalizedWeights(Ops tf, Operand<TFloat32> weights) {
         ReduceSum<TFloat32> sumOfWeights = tf.reduceSum(weights, tf.constant(0));

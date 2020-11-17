@@ -1,4 +1,4 @@
-package ai2020.group17.OpponentModel;
+package ai2020.group17;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,7 +10,7 @@ import geniusweb.issuevalue.Value;
 import geniusweb.issuevalue.ValueSet;
 
 /**
- * Class to map offers in the form of Map<String, String> to int[] offers accepted by the OpponentModel.UtilityModel class.
+ * Class to map offers in the form of Map[String, String] to int[] offers accepted by the OpponentModel.UtilityModel class.
  *
  * First instantiate it with a Map of issue names to lists of possible options for the issue.
  */
@@ -51,7 +51,7 @@ public class UtilityOfferStringToIntOptionsMapper {
     /**
      * Convert a String, Value bid (like geniusweb bid) to an int[] bid.
      * @param input The input bid.
-     * @return The int[] bid representing the {@param input}.
+     * @return The int[] bid representing the {@code input}.
      */
     public int[] convertOptions(Map<String, Value> input) {
         int[] options = new int[issueIndices.size()];

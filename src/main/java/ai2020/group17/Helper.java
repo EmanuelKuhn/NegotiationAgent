@@ -1,4 +1,4 @@
-package ai2020.group17.OpponentModel;
+package ai2020.group17;
 
 import geniusweb.issuevalue.Domain;
 import geniusweb.issuevalue.Value;
@@ -19,8 +19,8 @@ public class Helper {
      * @param clipValueMin The minimum.
      * @param clipValueMax The maximum
      *
-     * @return {@param t} clipped to {@param clipValueMin} and {@param clipValueMax},
-     *                    without affecting the gradients of {@param t}
+     * @return {@code t} clipped to {@code clipValueMin} and {@code clipValueMax},
+     *                    without affecting the gradients of {@code t}
      */
     public static <T extends TType> Operand<T> clipByValuePreserveGradient(Ops tf, Operand<T> t, Operand<T> clipValueMin, Operand<T> clipValueMax) {
         // Clip, but stop gradients (clipByValue gradients are not supported in the java version, plus
@@ -36,7 +36,7 @@ public class Helper {
      * Method to get a float array of n repeating values.
      * @param number The value to repeat.
      * @param n The number of repetitions.
-     * @return Array of {@param n} repetitions of {@param number}
+     * @return Array of {@code n} repetitions of {@code number}
      */
     public static float[] repeat(float number, int n) {
         float[] array = new float[n];
@@ -82,7 +82,7 @@ public class Helper {
      * Method to draw an index from a discrete distribution.
      * @param distribution The array defining the discrete distribution.
      *                     Does not have to be normalized.
-     * @return An index drawn from the {@param distribution}
+     * @return An index drawn from the {@code distribution}
      */
     public static int drawFromDiscreteDist(ArrayList<Double> distribution) {
         double total =  distribution.stream().mapToDouble(x->x).sum();

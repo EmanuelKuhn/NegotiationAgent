@@ -1,4 +1,4 @@
-package ai2020.group17.OpponentModel;
+package ai2020.group17;
 
 import geniusweb.actions.Action;
 import geniusweb.actions.Offer;

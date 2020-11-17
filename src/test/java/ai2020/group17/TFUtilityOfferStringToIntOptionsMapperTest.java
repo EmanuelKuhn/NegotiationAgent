@@ -1,15 +1,15 @@
-package ai2020.group17.OpponentModel;
-
-import org.junit.jupiter.api.Test;
+package ai2020.group17;
 
 import geniusweb.issuevalue.DiscreteValue;
 import geniusweb.issuevalue.DiscreteValueSet;
 import geniusweb.issuevalue.ValueSet;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class TFUtilityOfferStringToIntOptionsMapperTest {
 
