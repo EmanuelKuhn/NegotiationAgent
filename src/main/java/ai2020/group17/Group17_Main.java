@@ -1,25 +1,9 @@
 package ai2020.group17;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.*;
-import java.util.logging.Level;
-import java.util.stream.Collectors;
-
-import ai2020.group17.OpponentModel.TFLinearAdditiveOpponentModel;
-import geniusweb.actions.Action;
-import geniusweb.actions.Offer;
-import geniusweb.actions.PartyId;
-import geniusweb.actions.Vote;
-import geniusweb.actions.Votes;
-import geniusweb.inform.ActionDone;
-import geniusweb.inform.Finished;
-import geniusweb.inform.Inform;
-import geniusweb.inform.OptIn;
-import geniusweb.inform.Settings;
-import geniusweb.inform.Voting;
-import geniusweb.inform.YourTurn;
+import geniusweb.actions.*;
+import geniusweb.bidspace.BidsWithUtility;
+import geniusweb.bidspace.Interval;
+import geniusweb.inform.*;
 import geniusweb.issuevalue.Bid;
 import geniusweb.party.Capabilities;
 import geniusweb.party.DefaultParty;
@@ -32,9 +16,14 @@ import geniusweb.profileconnection.ProfileConnectionFactory;
 import geniusweb.profileconnection.ProfileInterface;
 import geniusweb.progress.Progress;
 import geniusweb.progress.ProgressRounds;
-import geniusweb.bidspace.BidsWithUtility;
-import geniusweb.bidspace.Interval;
 import tudelft.utilities.logging.Reporter;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 /**
  * A simple party that places random bids and accepts when it receives an offer
