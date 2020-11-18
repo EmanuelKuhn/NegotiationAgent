@@ -52,7 +52,7 @@ import java.util.stream.Collectors;
  */
 public class Group17_Main extends DefaultParty {
 
-	int DEFAULT_MIN_POWER = 76;
+	int DEFAULT_MIN_POWER = 2;
 
 	public static final double START_THRESHOLD = 0.9;
 	public static final double END_THRESHOLD = 0.6;
@@ -258,7 +258,7 @@ public class Group17_Main extends DefaultParty {
 	 */
 	private Votes vote(Voting voting) throws IOException {
 
-		double roundThreshold = computeRoundThreshold();
+		double roundThreshold = 0.9 * computeRoundThreshold();
 
 
 		Set<Vote> votes = voting.getBids().stream().distinct()
